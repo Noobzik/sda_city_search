@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/11/28 12:33:49 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/11/30 21:16:48 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,11 +51,11 @@ LinkedList.o:LinkedList.c
 main.o:main.c
 	$(CCSEP) main.c
 
-pile.o:src/pile.c
-	$(CCSEP) src/pile.c
-
 zscore.o:zscore.c
 	$(CCSEP) zscore.c
+
+BinarySearchTree.o:BinarySearchTree.c
+	$(CCSEP) BinarySearchTree.c
 
 main.o:main.c
 	$(CCSEP) main.c
