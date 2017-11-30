@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:16:51 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/11/30 20:52:54 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/11/30 21:42:45 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 #include "LinkedList.h"
 
 /* Opaque Structure */
-typedef struct        tree_s {
-	struct tres_s *     left;
-	City                keys;
-	struct tree_s *     right;
-}                     tree_t;
+struct        tree_t {
+	struct tree_t *     left;
+	double              keys[2];
+	struct tree_t *     right;
+};
 typedef struct tree_t BinarySearchTree;
 
 /* ------------------------------------------------------------------------- *

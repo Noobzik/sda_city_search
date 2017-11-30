@@ -6,11 +6,12 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/11/30 20:53:12 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/11/30 21:42:46 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BinarySearchTree.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -60,9 +61,10 @@ BinarySearchTree* newBST(int comparison_fn_t(const void *a, const void *b)) {
  */
 void freeBST(BinarySearchTree* bst, bool freeContent) {
 	if (bst == NULL) return;
-	if (freeContent)
+
+	if (freeContent == true) {
+		freeBST(bst->left, true);
+		freeBST(bst->right, true);
 		free(bst->keys);
-	freeBST(bst->right);
-	freeBST(bst->left);
-	free(bst);
+	}
 }
