@@ -44,6 +44,12 @@ BinarySearchTree* newBST(int comparison_fn_t(const void *a, const void *b)) {
 
 	BinarySearchTree *res = NULL;
 	res = malloc(sizeof(BinarySearchTree));
+    
+    if (res == NULL) {
+        fprintf("Impossible d'allouer le noeud !\n");
+        return NULL;
+        
+    }
 	res->right = NULL;
 	res->left  = NULL;
 
@@ -67,4 +73,44 @@ void freeBST(BinarySearchTree* bst, bool freeContent) {
 		freeBST(bst->right, true);
 		free(bst->keys);
 	}
-}
+
+/**
+ * Return the number of cityes contained in the tree.
+ *
+ * NOTE
+ *
+ * Recursiv course of the tree.
+ * @param bst         A valid pointer to a BinarySearchTree object
+ * @param n           A integer that represent number of element in bst
+ * PURE
+ */
+ 
+ int sizeOfBST(BinarySearchTree* bst, int n) {
+     if (bst == NULL) {
+         return n;
+     }
+     else {
+         n = n + 1;
+         return (sizeOfBST(bst->left, n) + sizeOfBST(bst->right, n));
+ }
+ 
+ 
+ /**
+ * 
+ *
+ * NOTE
+ *
+ * insert a node in a BST-longitude 
+ * @param bst         A valid pointer to a BinarySearchTree object
+ * @param long        A integer that represent longitude of a city
+ * @param lat         A integer that represent latitude of a city
+ */
+ 
+ void insertInBST(BinarySearchTree* bst, float longitude, float latitude) {
+     if (bst == NULL) {
+         printf("Impossible d'insérer un noeud dans un arbre vide ! Meme pour Mr.Hernandez !\n");
+     }
+     else {
+     
+     }
+ }
