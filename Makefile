@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/11/30 21:16:48 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/03 23:29:13 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFLAGS = -g -O3 $(WARNING) -std=c99
 # On force la derniere norme de compilation qui est C11
 
 #Liste des fichiers *.o à rassembler en un executable
-FICHIER = findCitiesList.o LinkedList.o zscore.o main.o
+FICHIER = findCitiesList.o LinkedList.o zscore.o main.o BinarySearchTree.o
 
 #Programme après la compilation
 OUT = boxsearch
