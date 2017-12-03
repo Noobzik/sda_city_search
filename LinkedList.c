@@ -23,7 +23,7 @@
 
 LinkedList* newLinkedList(void)
 {
-    LinkedList* ll = malloc(sizeof(LinkedList));
+    LinkedList* ll = (LinkedList*) malloc(sizeof(LinkedList));
     if (!ll)
         return NULL;
     ll->head = NULL;
@@ -60,7 +60,7 @@ size_t sizeOfLinkedList(const LinkedList* ll)
 
 bool insertInLinkedList(LinkedList* ll, const void* value)
 {
-    LLNode* node = malloc(sizeof(LLNode));
+    LLNode* node = (LLNode*) malloc(sizeof(LLNode));
     if(!node)
         return false;
     // Initialisation

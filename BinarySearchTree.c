@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct                tree_t {
   struct tree_t       *left;
@@ -50,10 +51,10 @@ struct                tree_t {
 
 BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *) */) {
   BinarySearchTree *res = 0;
-  if (!(res = malloc(sizeof(res)))) return res;
+
+  if (!(res = (BinarySearchTree*) malloc(sizeof(BinarySearchTree)))) return res;
   res->right = NULL;
   res->left  = NULL;
-
   return res;
 }
 
@@ -66,9 +67,8 @@ BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *) */) 
  * @param bst         A valid pointer to a BinarySearchTree object
  * @param freeContent Whether to free the content as well.
  */
-void freeBST(BinarySearchTree* bst, bool freeContent){
+void freeBST (BinarySearchTree* bst, bool freeContent){
   if (bst == NULL) return;
-
   if (freeContent == true) {
     freeBST(bst->left, true);
     freeBST(bst->right, true);
@@ -85,9 +85,8 @@ void freeBST(BinarySearchTree* bst, bool freeContent){
  * @param n           A integer that represent number of element in bst
  * PURE
  */
-size_t sizeOfBST(const BinarySearchTree* bst) {
-  return (bst == NULL) ? 0 :
-   1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
+inline size_t sizeOfBST (const BinarySearchTree* bst) {
+  return (bst == NULL) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
 
@@ -107,7 +106,7 @@ size_t sizeOfBST(const BinarySearchTree* bst) {
  *              inserted, false otherwise
  */
 
-bool insertInBST(BinarySearchTree* bst, const void* key, const void* value) {
+bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
   if (bst == NULL) {
     bst = newBST();
     bst->key = key;
@@ -126,4 +125,68 @@ bool insertInBST(BinarySearchTree* bst, const void* key, const void* value) {
     return true;
   }
   return false;
+}
+
+
+/* ------------------------------------------------------------------------- *
+ * Return the value associated to that key, if any
+ *
+ * PARAMETERS
+ * bst          A valid pointer to a BinarySearchTree object
+ * key          The key to look for
+ *
+ * RETURN
+ * res          One of the value corresping to that key. Or NULL if the key
+ *              is not present in the BST
+ * ------------------------------------------------------------------------- */
+
+const void* searchBST (BinarySearchTree* bst, const void* key) {
+  assert(bst != NULL);
+  if (key == bst->key) return bst->value;
+  return (key < bst->key) ? searchBST(bst->left, key) :
+                            searchBST(bst->right, key);
+}
+
+
+/* ------------------------------------------------------------------------- *
+ * Finds a set of elements in the provided BinarySearchTree whose the keys
+ * are included in a range [key1, key2] and returns their values. The values
+ * are sorted in the increasing order of the keys.
+ *
+ * PARAMETERS
+ * bst          A valid pointer to a BinarySearchTree object
+ * keyMin       Lower bound of the range (inclusive)
+ * keyMax       Upper bound of the range (inclusive)
+ *
+ * RETURN
+ * ll           A linkedList containing the element in the given range, or
+ *              NULL in case of allocation error.
+ *
+ * NOTES
+ * The linkedList must be freed but not its content
+ * If no elements are in the range, the function returns an empty linked-list
+ * ------------------------------------------------------------------------- */
+
+LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
+  assert(bst != NULL);
+
+  if (bst->key < keyMin) {
+    return getInRange(bst->right, keyMin, keyMax);
+  }
+  if (bst->key > keyMax) {
+    return getInRange(bst->left, keyMin, keyMax);
+  }
+
+  LinkedList* tmp = 0;
+  LinkedList* res = 0;
+
+  insertInLinkedList(tmp, bst);
+  while ((sizeOfLinkedList(tmp) < sizeOfBST(bst)) && (tmp->head != tmp->last)) {
+    insertInLinkedList(res, tmp->head->value);
+    if (bst->right != NULL) insertInLinkedList(tmp, bst->right);
+    if (bst->left != NULL) insertInLinkedList(tmp, bst->left);
+    tmp->head = tmp->head->next;
+  }
+  return res;
+
 }
