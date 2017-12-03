@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:08:35 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/11/28 12:16:08 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/03 23:25:36 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 LinkedList* newLinkedList(void)
 {
-    LinkedList* ll = (LinkedList*) malloc(sizeof(LinkedList));
+    LinkedList* ll = malloc(sizeof(LinkedList));
     if (!ll)
         return NULL;
     ll->head = NULL;
@@ -60,7 +60,7 @@ size_t sizeOfLinkedList(const LinkedList* ll)
 
 bool insertInLinkedList(LinkedList* ll, const void* value)
 {
-    LLNode* node = (LLNode*) malloc(sizeof(LLNode));
+    LLNode* node = malloc(sizeof(LLNode));
     if(!node)
         return false;
     // Initialisation
