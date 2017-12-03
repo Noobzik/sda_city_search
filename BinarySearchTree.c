@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/03 00:26:04 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/03 13:06:22 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct                tree_t {
+  struct tree_t       *left;
+  const void*          keys;
+  struct tree_t       *right;
+};
+
 /**
-  * Creates an empty BinarySearchTree (or BST).
-  *
-  * The BST must later be deleted by calling freeBinarySearchTree().
-  *
-  * @oaram comparison_fn_t   A comparison function
-  * @return A pointer to the BinarySearchTree, or NULL in case of
-  *         error
-  *
-  * COMPARISON FUNCTION
-  * comparison_fn_t(a, b) < 0    <=> a < b
-  * comparison_fn_t(a, b) = 0    <=> a == b
-  * comparison_fn_t(a, b) > 0    <=> a > b
-  *
-  * USAGE (example for doubles: http://www.gnu.org/software/libc/manual/html_node/Comparison-Functions.html)
-  * int compare_doubles(const void* a, const void* b)
-  * {
-  *     const double* a_ = (const double*)a;
-  *     const double* b_ = (const double*)b;
-  *     return (*a_ > *b_) - (*a_ < *b_)
-  * }
-  * ...
-  * BinarySearchTree bst = newBST(&compare_doubles);
-  *
-  */
+ * Creates an empty BinarySearchTree (or BST).
+ *
+ * The BST must later be deleted by calling freeBinarySearchTree().
+ *
+ * @oaram comparison_fn_t   A comparison function
+ * @return A pointer to the BinarySearchTree, or NULL in case of
+ *         error
+ *
+ * COMPARISON FUNCTION
+ * comparison_fn_t(a, b) < 0    <=> a < b
+ * comparison_fn_t(a, b) = 0    <=> a == b
+ * comparison_fn_t(a, b) > 0    <=> a > b
+ *
+ * USAGE (example for doubles: http://www.gnu.org/software/libc/manual/html_node/Comparison-Functions.html)
+ * int compare_doubles(const void* a, const void* b)
+ * {
+ *     const double* a_ = (const double*)a;
+ *     const double* b_ = (const double*)b;
+ *     return (*a_ > *b_) - (*a_ < *b_)
+ * }
+ * ...
+ * BinarySearchTree bst = newBST(&compare_doubles);
+ *
+ */
 
-BinarySearchTree* newBST(int comparison_fn_t(const void *a, const void *b)) {
-	BinarySearchTree *res = NULL;
+BinarySearchTree* newBST (int comparison_fn_t(const void *, const void *) ) {
+  BinarySearchTree *res = NULL;
+;
+  res = malloc(sizeof(BinarySearchTree));
+  if (res == NULL) {
+    puts("Impossible d'allouer le noeud !");
+    return NULL;
+  }
+  res->right = NULL;
+  res->left  = NULL;
 
-	res = malloc(sizeof(BinarySearchTree));
-
-    if (res == NULL) {
-        puts("Impossible d'allouer le noeud !\n");
-        return NULL;
-
-    }
-	res->right = NULL;
-	res->left  = NULL;
-
-	return res;
+  return res;
 }
 
 /**
@@ -67,13 +71,12 @@ BinarySearchTree* newBST(int comparison_fn_t(const void *a, const void *b)) {
  * @param freeContent Whether to free the content as well.
  */
 void freeBST(BinarySearchTree* bst, bool freeContent){
-	if (bst == NULL) return;
+  if (bst == NULL) return;
 
-	if (freeContent == true) {
-		freeBST(bst->left, true);
-		freeBST(bst->right, true);
-		free(bst->keys);
-	}
+  if (freeContent == true) {
+    freeBST(bst->left, true);
+    freeBST(bst->right, true);
+  }
 }
 
 /**
@@ -86,27 +89,43 @@ void freeBST(BinarySearchTree* bst, bool freeContent){
  * @param n           A integer that represent number of element in bst
  * PURE
  */
-
 size_t sizeOfBST(const BinarySearchTree* bst) {
-	return (bst == NULL) ? 0 :
-	 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
+  return (bst == NULL) ? 0 :
+   1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
 
- /**
+/**
  * NOTE
+ * Inserts a new key-value pair in the provided BinarySearchTree. This
+ * specific implementation of the BST must handle duplicate keys.
  *
- * insert a node in a BST-longitude
- * @param bst         A valid pointer to a BinarySearchTree object
- * @param long        A integer that represent longitude of a city
- * @param lat         A integer that represent latitude of a city
+ * PARAMETERS
+ * bst          A valid pointer to a BinarySearchTree object
+ * key          The key of the new element or of the element to update
+ * value        The value to store
+ *
+ * RETURN
+ * res          A boolean equal to true if the new element was successfully
+ *              inserted, false otherwise
  */
 
 bool insertInBST(BinarySearchTree* bst, const void* key, const void* value) {
-	if (bst == NULL) {
-		puts("Impossible d'insérer un noeud dans un arbre vide ! Meme pour Mr.Hernandez !\n");
-	}
-  else {
-
+  if (bst == NULL) {
+//  bst = newBST();
+    bst->keys = key;
+    return true;
   }
+  if (value == bst->keys) {
+    return false;
+  }
+	if (value < bst->keys) {
+    insertInBST(bst->left, key, value);
+    return true;
+  }
+  else {
+    insertInBST(bst->right, key, value);
+    return true;
+  }
+  return false;
 }
