@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/03 13:06:22 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/03 15:21:48 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ size_t sizeOfBST(const BinarySearchTree* bst) {
  * PARAMETERS
  * bst          A valid pointer to a BinarySearchTree object
  * key          The key of the new element or of the element to update
- *              We gonna use the key to sort our tree. 
+ *              We gonna use the key to sort our tree.
  * value        The value to store
  *
  * RETURN
@@ -111,7 +111,7 @@ bool insertInBST(BinarySearchTree* bst, const void* key, const void* value) {
   if (bst == NULL) {
     bst = newBST();
     bst->key = key;
-    bst->value = value; 
+    bst->value = value;
     return true;
   }
   if (key == bst->key && value == bst->value) {

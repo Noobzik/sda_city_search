@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:16:51 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/03 11:16:41 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/03 15:21:45 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct tree_t BinarySearchTree;
  * BinarySearchTree bst = newBST(&compare_doubles);
  * ------------------------------------------------------------------------- */
 
-BinarySearchTree* newBST(/*int comparison_fn_t(const void *, const void *)*/);
+BinarySearchTree* newBST(void/*int comparison_fn_t(const void *, const void *)*/);
 
 /* ------------------------------------------------------------------------- *
  * Frees the allocated memory of the given BinarySearchTree.
