@@ -52,7 +52,7 @@ typedef struct tree_t BinarySearchTree;
  * BinarySearchTree bst = newBST(&compare_doubles);
  * ------------------------------------------------------------------------- */
 
-BinarySearchTree* newBST(int comparison_fn_t(const void *, const void *));
+BinarySearchTree* newBST(/*int comparison_fn_t(const void *, const void *)*/);
 
 /* ------------------------------------------------------------------------- *
  * Frees the allocated memory of the given BinarySearchTree.

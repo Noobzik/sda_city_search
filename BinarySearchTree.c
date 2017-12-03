@@ -17,7 +17,8 @@
 
 struct                tree_t {
   struct tree_t       *left;
-  const void*          keys;
+  const void*          key;
+  const void*          value;
   struct tree_t       *right;
 };
 
@@ -47,14 +48,9 @@ struct                tree_t {
  *
  */
 
-BinarySearchTree* newBST (int comparison_fn_t(const void *, const void *) ) {
-  BinarySearchTree *res = NULL;
-;
-  res = malloc(sizeof(BinarySearchTree));
-  if (res == NULL) {
-    puts("Impossible d'allouer le noeud !");
-    return NULL;
-  }
+BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *) */) {
+  BinarySearchTree *res = 0;
+  if (!(res = malloc(sizeof(res)))) return res;
   res->right = NULL;
   res->left  = NULL;
 
@@ -103,6 +99,7 @@ size_t sizeOfBST(const BinarySearchTree* bst) {
  * PARAMETERS
  * bst          A valid pointer to a BinarySearchTree object
  * key          The key of the new element or of the element to update
+ *              We gonna use the key to sort our tree. 
  * value        The value to store
  *
  * RETURN
@@ -112,14 +109,15 @@ size_t sizeOfBST(const BinarySearchTree* bst) {
 
 bool insertInBST(BinarySearchTree* bst, const void* key, const void* value) {
   if (bst == NULL) {
-//  bst = newBST();
-    bst->keys = key;
+    bst = newBST();
+    bst->key = key;
+    bst->value = value; 
     return true;
   }
-  if (value == bst->keys) {
+  if (key == bst->key && value == bst->value) {
     return false;
   }
-	if (value < bst->keys) {
+  if (key < bst->key) {
     insertInBST(bst->left, key, value);
     return true;
   }
