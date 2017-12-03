@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/03 15:21:48 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/03 23:24:48 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,3 +190,36 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
   return res;
 
 }
+/**
+ * Function edited by noobzik thinking in case of major breakdown
+ * @param  bst    [description]
+ * @param  keyMin [description]
+ * @param  keyMax [description]
+ * @return        [description]
+ */
+/*
+LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
+  assert(bst != NULL);
+
+  while (bst->key != keyMin) {
+    (bst->key < keyMin) ?   (bst = bst->left) :
+                            (bst = bst->right);
+    if (bst->key == keyMin) break;
+    else                    continue;
+  }
+
+  LinkedList *tmp = 0;
+  LinkedList *res = 0;
+
+  insertInLinkedList(tmp, bst);
+  while (bst->key < keyMax) {
+    insertInLinkedList(res, tmp->head->value);
+    if (bst->right != NULL)
+      insertInLinkedList(tmp, bst->right);
+    if (bst->left != NULL)
+      insertInLinkedList(tmp, bst->left);
+    tmp->head = tmp->head->next;
+  }
+  return res;
+}
+*/
