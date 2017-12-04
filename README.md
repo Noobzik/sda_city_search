@@ -9,3 +9,5 @@
 | Yesli  Rayane  | 11507199        | soso7      |
 
 ### Current version : Git init ###
+
+demander ce que fait comparaison et keepit
