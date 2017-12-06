@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/03 23:43:03 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/06 22:30:32 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ struct                tree_t {
   struct tree_t       *right;
 };
 
+BinarySearchTree *bstMinimum(BinarySearchTree *b);
 /**
  * Creates an empty BinarySearchTree (or BST).
  *
@@ -49,17 +50,29 @@ struct                tree_t {
  *
  */
 
-BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *) */) {
+BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *)*/) {
   BinarySearchTree *res = 0;
 
   if (!(res = (BinarySearchTree*) malloc(sizeof(BinarySearchTree)))) return res;
-  res->right = NULL;
-  res->left  = NULL;
+  /*if (comparison_fn_t(key,value)) {
+    res->right = NULL;
+    res->left  = NULL;
+  }*/
+  else {
+    res->right  = NULL;
+    res->left   = NULL;
+  }
   return res;
 }
 
 /**
  * Frees the allocated memory of the given BinarySearchTree.
+ *
+ * First Case : Left and right are not nulled
+ * Look for the successor of the right side
+ *
+ * Second case : Right is null, the current bst take the bst->left
+ * Third case : Left is null, the current bst take the bst->right
  *
  * NOTE
  * The const qualifier will be exceptionally discarded if freeContent == true
@@ -67,13 +80,59 @@ BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *) */) 
  * @param bst         A valid pointer to a BinarySearchTree object
  * @param freeContent Whether to free the content as well.
  */
+
 void freeBST (BinarySearchTree* bst, bool freeContent){
-  if (bst == NULL) return;
-  if (freeContent == true) {
-    freeBST(bst->left, true);
-    freeBST(bst->right, true);
+  BinarySearchTree *y;
+  BinarySearchTree *tmp;
+  if (!freeContent) {
+    if (bst->left != NULL && bst->right != NULL) {
+      if (bst->right->left == NULL) {
+        bst->right->left = bst->left;
+        bst = bst->right;
+      }
+      else {
+        y = bstMinimum(bst->right);
+        tmp = y;
+        y = tmp->right;
+        tmp->left = bst->left;
+        tmp->right = bst->right;
+        bst = tmp;
+      }
+      return;
+    }
+
+    if (bst->left == NULL && bst->right != NULL) {
+      bst = bst->right;
+      return;
+    }
+
+    if (bst->left != NULL && bst->right == NULL) {
+      bst = bst->left;
+      return;
+    }
+  }
+
+  else {
+    if (bst != NULL) {
+      freeBST(bst->left, false);
+      freeBST(bst->right, false);
+      free(bst);
+    }
   }
 }
+
+/**
+ * Search the Minimum of the given tree
+ * @param  b [description]
+ * @return   [description]
+ */
+BinarySearchTree *bstMinimum(BinarySearchTree *b) {
+  while (b->left != NULL)
+    b = b->left;
+  return b;
+}
+
+
 
 /**
  * Return the number of cityes contained in the tree.
@@ -167,7 +226,7 @@ const void* searchBST (BinarySearchTree* bst, const void* key) {
  * The linkedList must be freed but not its content
  * If no elements are in the range, the function returns an empty linked-list
  * ------------------------------------------------------------------------- */
-
+/*
 LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
   assert(bst != NULL);
 
@@ -190,7 +249,7 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
   }
   return res;
 
-}
+}*/
 /**
  * Function edited by noobzik thinking in case of major breakdown
  * @param  bst    [description]
@@ -198,13 +257,15 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
  * @param  keyMax [description]
  * @return        [description]
  */
-/*
+
 LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
   assert(bst != NULL);
 
   while (bst->key != keyMin) {
     (bst->key < keyMin) ?   (bst = bst->left) :
                             (bst = bst->right);
+    if (bst->left == NULL && bst->right == NULL)
+      return newLinkedList();
     if (bst->key == keyMin) break;
     else                    continue;
   }
@@ -214,13 +275,15 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
 
   insertInLinkedList(tmp, bst);
   while (bst->key < keyMax) {
-    insertInLinkedList(res, tmp->head->value);
+    if (!insertInLinkedList(res, tmp->head->value))
+      return NULL;
     if (bst->right != NULL)
-      insertInLinkedList(tmp, bst->right);
+      if(!insertInLinkedList(tmp, bst->right))
+        return NULL;
     if (bst->left != NULL)
-      insertInLinkedList(tmp, bst->left);
+      if (!insertInLinkedList(tmp, bst->left))
+        return NULL;
     tmp->head = tmp->head->next;
   }
   return res;
 }
-*/
