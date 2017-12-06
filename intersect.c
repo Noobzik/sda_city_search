@@ -6,7 +6,7 @@
 /*   By: Dryska <Emeric.Bayard@Outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2017/12/04 09:50:02 by Dryska           ###   ########.fr       */
+/*   Updated: 2017/12/06 22:41:13 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
 
   while (tmpA != listA->last) {
     while (tmpB != listB->last) {
-      if (comparison_fn_t(tmpA->value, tmpB->value)) {
-        insertInLinkedList(listC, tmpA->value);
+      if (comparison_fn_t(tmpA->value, tmpB->value) == 0) {
+        if(!insertInLinkedList(listC, tmpA->value))
+          return NULL;
       }
       tmpB = tmpB->next;
     }

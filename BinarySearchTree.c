@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/06 22:30:32 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/06 22:39:27 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,8 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
   LinkedList *tmp = 0;
   LinkedList *res = 0;
 
-  insertInLinkedList(tmp, bst);
+  if(!insertInLinkedList(tmp, bst))
+    return NULL;
   while (bst->key < keyMax) {
     if (!insertInLinkedList(res, tmp->head->value))
       return NULL;
