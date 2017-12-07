@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:16:51 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/03 15:21:45 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/07 11:44:30 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct tree_t BinarySearchTree;
 /* ------------------------------------------------------------------------- *
  * Creates an empty BinarySearchTree (or BST).
  *
- * The BST must later be deleted by calling freeBinarySearchTree().
+ * The BST must later be deleted by calling freeBinarySearchTree(BST, true).
  *
  * ARGUMENT
  * comparison_fn_t      A comparison function
@@ -52,7 +52,7 @@ typedef struct tree_t BinarySearchTree;
  * BinarySearchTree bst = newBST(&compare_doubles);
  * ------------------------------------------------------------------------- */
 
-BinarySearchTree* newBST(void/*int comparison_fn_t(const void *, const void *)*/);
+BinarySearchTree* newBST(void);
 
 /* ------------------------------------------------------------------------- *
  * Frees the allocated memory of the given BinarySearchTree.

@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/06 22:39:27 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/07 11:38:55 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ struct                tree_t {
   struct tree_t       *right;
 };
 
-BinarySearchTree *bstMinimum(BinarySearchTree *b);
 /**
  * Creates an empty BinarySearchTree (or BST).
  *
@@ -50,7 +49,7 @@ BinarySearchTree *bstMinimum(BinarySearchTree *b);
  *
  */
 
-BinarySearchTree* newBST (/*int comparison_fn_t(const void *, const void *)*/) {
+BinarySearchTree* newBST () {
   BinarySearchTree *res = 0;
 
   if (!(res = (BinarySearchTree*) malloc(sizeof(BinarySearchTree)))) return res;
@@ -91,7 +90,9 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
         bst = bst->right;
       }
       else {
-        y = bstMinimum(bst->right);
+        y = bst;
+        while (y->left != NULL)
+          y = y->left;
         tmp = y;
         y = tmp->right;
         tmp->left = bst->left;
@@ -120,19 +121,6 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
     }
   }
 }
-
-/**
- * Search the Minimum of the given tree
- * @param  b [description]
- * @return   [description]
- */
-BinarySearchTree *bstMinimum(BinarySearchTree *b) {
-  while (b->left != NULL)
-    b = b->left;
-  return b;
-}
-
-
 
 /**
  * Return the number of cityes contained in the tree.
@@ -176,15 +164,13 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
   if (key == bst->key && value == bst->value) {
     return false;
   }
+
   if (key < bst->key) {
-    insertInBST(bst->left, key, value);
-    return true;
+    return insertInBST(bst->left, key, value);
   }
   else {
-    insertInBST(bst->right, key, value);
-    return true;
+    return insertInBST(bst->right, key, value);
   }
-  return false;
 }
 
 
@@ -201,7 +187,8 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
  * ------------------------------------------------------------------------- */
 
 const void* searchBST (BinarySearchTree* bst, const void* key) {
-  assert(bst != NULL);
+  if (sizeOfBST(bst) == 0)
+    return NULL;
   if (key == bst->key) return bst->value;
   return (key < bst->key) ? searchBST(bst->left, key) :
                             searchBST(bst->right, key);
@@ -252,6 +239,7 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
 }*/
 /**
  * Function edited by noobzik thinking in case of major breakdown
+ *
  * @param  bst    [description]
  * @param  keyMin [description]
  * @param  keyMax [description]
@@ -259,7 +247,9 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
  */
 
 LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
-  assert(bst != NULL);
+
+  if (sizeOfBST(bst) == 0)
+    return newLinkedList();
 
   while (bst->key != keyMin) {
     (bst->key < keyMin) ?   (bst = bst->left) :
@@ -270,8 +260,8 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
     else                    continue;
   }
 
-  LinkedList *tmp = 0;
-  LinkedList *res = 0;
+  LinkedList *tmp = newLinkedList();
+  LinkedList *res = newLinkedList();
 
   if(!insertInLinkedList(tmp, bst))
     return NULL;
@@ -286,5 +276,6 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
         return NULL;
     tmp->head = tmp->head->next;
   }
+  freeLinkedList(tmp, true);
   return res;
 }
