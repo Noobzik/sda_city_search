@@ -75,7 +75,7 @@ static LinkedList* parseCsv(const char* filename)
     char stringDelim = '"';
     City* city;
     size_t currChar, nameStart, nameEnd, nameLen, latitudeStart, longitudeStart;
-    while (fgets(line, sizeof(line), fileObj) != NULL)
+    while (fgets(line, (int) sizeof(line), fileObj) != NULL)
     {
         if (nbLine == 0) { nbLine++; continue; } // Skip header
 
