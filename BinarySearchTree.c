@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 23:16:38 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/09 23:34:08 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ struct                tree_t {
  */
 
 BinarySearchTree* newBST () {
-  BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
+  BinarySearchTree *res = NULL;
+  res = malloc(sizeof(BinarySearchTree));
+  assert(res != NULL);
   res->right  = NULL;
   res->left   = NULL;
   return res;
@@ -160,6 +162,7 @@ size_t sizeOfBST (const BinarySearchTree* bst) {
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
   if (bst == NULL) {
     BinarySearchTree *bst_new = newBST();
+    assert(bst_new != NULL);
     bst_new->key = key;
     printf("Key : %lg\n", *(double *) key);
     bst_new->value = value;
