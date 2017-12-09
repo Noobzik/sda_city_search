@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/12/03 23:29:13 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/09 10:00:37 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,6 @@ findCitiesList.o:findCitiesList.c
 
 LinkedList.o:LinkedList.c
 	$(CCSEP) LinkedList.c
-
-main.o:main.c
-	$(CCSEP) main.c
 
 zscore.o:zscore.c
 	$(CCSEP) zscore.c

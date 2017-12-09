@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/07 11:38:55 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/09 10:45:03 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ inline size_t sizeOfBST (const BinarySearchTree* bst) {
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
   if (bst == NULL) {
     bst = newBST();
-    assert(bst != 0);
+    assert(bst != NULL);
     bst->key = key;
     bst->value = value;
     return true;
