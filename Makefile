@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/12/09 10:00:37 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/09 20:21:58 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,10 @@ CFLAGS = -g -O3 $(WARNING) -std=c99
 # On force la derniere norme de compilation qui est C11
 
 #Liste des fichiers *.o à rassembler en un executable
-FICHIER = findCitiesList.o LinkedList.o zscore.o main.o BinarySearchTree.o
+# FICHIER = findCitiesList.o LinkedList.o main.o BinarySearchTree.o
+#
+# Premier alogrithme sur latitude
+FICHIER = findCities1BST.o LinkedList.o main.o BinarySearchTree.o
 
 #Programme après la compilation
 OUT = boxsearch
@@ -45,6 +48,8 @@ all:$(FICHIER)
 findCitiesList.o:findCitiesList.c
 	$(CCSEP) findCitiesList.c
 
+findCities1BST.o:findCities1BST.c
+	$(CCSEP) findCities1BST.c
 LinkedList.o:LinkedList.c
 	$(CCSEP) LinkedList.c
 

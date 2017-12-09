@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 11:59:00 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/09 23:15:04 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "findCities.h"
 #include "LinkedList.h"
 #include "BinarySearchTree.h"
+#include <stdio.h>
 
 LinkedList* findCities(LinkedList* cities,
                        double latitudeMin,
@@ -31,14 +32,29 @@ LinkedList* findCities(LinkedList* cities,
   bool error = false;
   while (!error && curr != NULL) {
     city = (const City*)curr->value;
-    error = error || !insertInBST(bst, &city->latitude, &curr->value);
+    error = error || !insertInBST((void*)&bst, &city->latitude, curr->value);
+    printf("+-+-+\nDans Insert in BSt while je vaut %lu\n+-+-+\n",sizeOfBST(bst));
     curr = curr->next;
   }
+  puts("---------------");
+  printf("error = %d\n",error);
   if (error) {
-    freeBST(bst, false);
+    puts("Error while inserting");
+    freeBST(bst, true);
     return NULL;
   }
+  printf("error = %d\n",error);
+  puts("----------------");
+  if (error) {
+    puts("j'existe pas");
+  }
+  else {
+    puts("j'existe");
+  }
+  print_inorder(bst);
+  printf("Taille de l'arbre Avant get in range: %lu\n", sizeOfBST(bst));
   filtered = getInRange(bst, &latitudeMin, &latitudeMax);
-  freeBST(bst, false);
+  printf("Taille de l'arbre : %lu\n", sizeOfBST(bst));
+  freeBST(bst, true);
   return filtered;
 }
