@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 23:15:04 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/10 00:07:50 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ LinkedList* findCities(LinkedList* cities,
   bool error = false;
   while (!error && curr != NULL) {
     city = (const City*)curr->value;
-    error = error || !insertInBST((void*)&bst, &city->latitude, curr->value);
+    error = error || !insertInBST(bst, &city->latitude, curr->value);
     printf("+-+-+\nDans Insert in BSt while je vaut %lu\n+-+-+\n",sizeOfBST(bst));
     curr = curr->next;
   }
