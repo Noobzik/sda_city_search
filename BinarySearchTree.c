@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 10:45:03 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/09 11:51:55 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,9 @@ BinarySearchTree* newBST () {
   BinarySearchTree *res = 0;
 
   if (!(res = (BinarySearchTree*) malloc(sizeof(BinarySearchTree)))) return res;
-  /*if (comparison_fn_t(key,value)) {
-    res->right = NULL;
-    res->left  = NULL;
-  }*/
-  else {
-    res->right  = NULL;
-    res->left   = NULL;
-  }
+
+  res->right  = NULL;
+  res->left   = NULL;
   return res;
 }
 
@@ -83,7 +78,8 @@ BinarySearchTree* newBST () {
 void freeBST (BinarySearchTree* bst, bool freeContent){
   BinarySearchTree *y;
   BinarySearchTree *tmp;
-  if (!freeContent) {
+
+  if (freeContent == false) {
     if (bst->left != NULL && bst->right != NULL) {
       if (bst->right->left == NULL) {
         bst->right->left = bst->left;
@@ -115,8 +111,8 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
 
   else {
     if (bst != NULL) {
-      freeBST(bst->left, false);
-      freeBST(bst->right, false);
+      freeBST(bst->left, true);
+      freeBST(bst->right, true);
       free(bst);
     }
   }
@@ -156,6 +152,7 @@ inline size_t sizeOfBST (const BinarySearchTree* bst) {
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
   if (bst == NULL) {
     bst = newBST();
+    assert(bst != 0);
     assert(bst != NULL);
     bst->key = key;
     bst->value = value;
@@ -247,7 +244,7 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
  */
 
 LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
-
+  puts("Inside getInRange");
   if (sizeOfBST(bst) == 0)
     return newLinkedList();
 
