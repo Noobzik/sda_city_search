@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/10 10:50:21 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/10 21:52:49 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
  * PURE
  */
 size_t sizeOfBST (const BinarySearchTree* bst) {
-  return (bst == NULL) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
+  return (bst == 0) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
 
@@ -163,6 +163,11 @@ size_t sizeOfBST (const BinarySearchTree* bst) {
  */
 
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
+  if (!bst->key) {
+    bst->key = key;
+    bst->value = value;
+    return true;
+  }
   if (key > bst->key) {
     if (bst->right) {
       return insertInBST (bst->right, key, value);
