@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 11:51:55 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/10 10:50:21 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #include <assert.h>
 
 struct                tree_t {
+  struct tree_t       *root;
   struct tree_t       *left;
   const void*          key;
   const void*          value;
   struct tree_t       *right;
 };
+
 
 /**
  * Creates an empty BinarySearchTree (or BST).
@@ -50,12 +52,13 @@ struct                tree_t {
  */
 
 BinarySearchTree* newBST () {
-  BinarySearchTree *res = 0;
-
-  if (!(res = (BinarySearchTree*) malloc(sizeof(BinarySearchTree)))) return res;
-
-  res->right  = NULL;
-  res->left   = NULL;
+  BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
+  assert(res != NULL);
+  res->value = NULL;
+  res->key = NULL;
+  res->right  = 0;
+  res->left   = 0;
+  res->root   = 0;
   return res;
 }
 
@@ -79,15 +82,33 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
   BinarySearchTree *y;
   BinarySearchTree *tmp;
 
+  if (sizeOfBST(bst) == 0) {
+    puts("Je suis la dans size = 0");
+    free(bst);
+    return;
+  }
+
   if (freeContent == false) {
-    if (bst->left != NULL && bst->right != NULL) {
-      if (bst->right->left == NULL) {
+
+
+    if (!(bst->left) && !(bst->right)) {
+      bst = bst->right;
+      return;
+    }
+
+    if (bst->left && !(bst->right)) {
+      bst = bst->left;
+      return;
+    }
+
+    if (bst->left && bst->right) {
+      if (!(bst->right->left)) {
         bst->right->left = bst->left;
         bst = bst->right;
       }
       else {
         y = bst;
-        while (y->left != NULL)
+        while (y->left)
           y = y->left;
         tmp = y;
         y = tmp->right;
@@ -97,22 +118,14 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
       }
       return;
     }
-
-    if (bst->left == NULL && bst->right != NULL) {
-      bst = bst->right;
-      return;
-    }
-
-    if (bst->left != NULL && bst->right == NULL) {
-      bst = bst->left;
-      return;
-    }
   }
 
   else {
-    if (bst != NULL) {
+    if (bst) {
       freeBST(bst->left, true);
       freeBST(bst->right, true);
+      free((void*)bst->value);
+      free((void*)bst->key);
       free(bst);
     }
   }
@@ -128,7 +141,7 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
  * @param n           A integer that represent number of element in bst
  * PURE
  */
-inline size_t sizeOfBST (const BinarySearchTree* bst) {
+size_t sizeOfBST (const BinarySearchTree* bst) {
   return (bst == NULL) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
@@ -150,24 +163,33 @@ inline size_t sizeOfBST (const BinarySearchTree* bst) {
  */
 
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
-  if (bst == NULL) {
-    bst = newBST();
-    assert(bst != 0);
-    assert(bst != NULL);
-    bst->key = key;
-    bst->value = value;
-    return true;
+  if (key > bst->key) {
+    if (bst->right) {
+      return insertInBST (bst->right, key, value);
+    }
+    else {
+      BinarySearchTree *tmp = newBST();
+      tmp->key   = key;
+      tmp->value = value;
+      tmp->root  = bst;
+      bst->right = tmp;
+      return true;
+    }
   }
-  if (key == bst->key && value == bst->value) {
-    return false;
-  }
-
   if (key < bst->key) {
-    return insertInBST(bst->left, key, value);
+    if (bst->left) {
+      return insertInBST(bst->left, key, value);
+    }
+    else {
+      BinarySearchTree *tmp = newBST();
+      tmp->key = key;
+      tmp->value = value;
+      tmp->root  = bst;
+      bst->left = tmp;
+      return true;
+    }
   }
-  else {
-    return insertInBST(bst->right, key, value);
-  }
+  return false;
 }
 
 
@@ -275,4 +297,12 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
   }
   freeLinkedList(tmp, true);
   return res;
+}
+
+void print_inorder(const BinarySearchTree *bst) {
+  if (bst != NULL) {
+    print_inorder(bst->left);
+    printf("%f",*(float *) bst->key);
+    print_inorder(bst->right);
+  }
 }
