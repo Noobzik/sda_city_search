@@ -25,6 +25,8 @@ They should return a list of size 0. The header files and the submission platfor
 
 ___
 
+### Insert In BST is now fixed ###
+
 ### FreeBST par Rakib ###
 
 Donc en faite, on passe un paramètre un noeud qu'on veut supprimer + un booléen
