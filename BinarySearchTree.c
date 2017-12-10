@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 23:34:08 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/10 10:50:21 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <assert.h>
 
 struct                tree_t {
+  struct tree_t       *root;
   struct tree_t       *left;
   const void*          key;
   const void*          value;
@@ -51,11 +52,13 @@ struct                tree_t {
  */
 
 BinarySearchTree* newBST () {
-  BinarySearchTree *res = NULL;
-  res = malloc(sizeof(BinarySearchTree));
+  BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
   assert(res != NULL);
-  res->right  = NULL;
-  res->left   = NULL;
+  res->value = NULL;
+  res->key = NULL;
+  res->right  = 0;
+  res->left   = 0;
+  res->root   = 0;
   return res;
 }
 
@@ -160,29 +163,33 @@ size_t sizeOfBST (const BinarySearchTree* bst) {
  */
 
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
-  if (bst == NULL) {
-    BinarySearchTree *bst_new = newBST();
-    assert(bst_new != NULL);
-    bst_new->key = key;
-    printf("Key : %lg\n", *(double *) key);
-    bst_new->value = value;
-    bst = bst_new;
-    printf("Key in bst: %lg\n", *(double *) bst->key);
-    return true;
+  if (key > bst->key) {
+    if (bst->right) {
+      return insertInBST (bst->right, key, value);
+    }
+    else {
+      BinarySearchTree *tmp = newBST();
+      tmp->key   = key;
+      tmp->value = value;
+      tmp->root  = bst;
+      bst->right = tmp;
+      return true;
+    }
   }
-
-  if (key == bst->key && value == bst->value) {
-    return false;
-  }
-
   if (key < bst->key) {
-    puts("Entered here");
-    return insertInBST(bst->left, key, value);
+    if (bst->left) {
+      return insertInBST(bst->left, key, value);
+    }
+    else {
+      BinarySearchTree *tmp = newBST();
+      tmp->key = key;
+      tmp->value = value;
+      tmp->root  = bst;
+      bst->left = tmp;
+      return true;
+    }
   }
-  else {
-    return insertInBST(bst->right, key, value);
-  }
-  //return true;
+  return false;
 }
 
 

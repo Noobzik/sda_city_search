@@ -22,7 +22,7 @@ LinkedList* findCities(LinkedList* cities,
                        double longitudeMin,
                        double longitudeMax) {
 
-  BinarySearchTree *bst = NULL;
+  BinarySearchTree *bst = newBST();
   (void)           longitudeMax;
   (void)           longitudeMin;
   LinkedList       *filtered;
