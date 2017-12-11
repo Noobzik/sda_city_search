@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/10 21:52:49 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/11 15:04:24 by Dryska           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-struct                tree_t {
+struct              tree_t {
   struct tree_t       *root;
   struct tree_t       *left;
   const void*          key;
@@ -51,8 +51,8 @@ struct                tree_t {
  *
  */
 
-BinarySearchTree* newBST () {
-  BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
+BinarySearchTree* newBST() {
+  BinarySearchTree *res = (BinarySearchTree*)malloc(sizeof(BinarySearchTree));
   assert(res != NULL);
   res->value = NULL;
   res->key = NULL;
@@ -83,7 +83,6 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
   BinarySearchTree *tmp;
 
   if (sizeOfBST(bst) == 0) {
-    puts("Je suis la dans size = 0");
     free(bst);
     return;
   }
@@ -271,43 +270,50 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
  */
 
 LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
-  puts("Inside getInRange");
-  if (sizeOfBST(bst) == 0)
-    return newLinkedList();
-
-  while (bst->key != keyMin) {
-    (bst->key < keyMin) ?   (bst = bst->left) :
-                            (bst = bst->right);
-    if (bst->left == NULL && bst->right == NULL)
-      return newLinkedList();
-    if (bst->key == keyMin) break;
-    else                    continue;
+  LinkedList* tmp = newLinkedList();
+  LinkedList* res = newLinkedList();
+  size_t n = sizeOfBST(bst);
+  size_t i = 0;
+  printf("L'algorithme commence !\n");
+  if (!bst) {
+    printf("L'arbre est vide donc rien n'es ajouté !\n");
+    return res;
   }
 
-  LinkedList *tmp = newLinkedList();
-  LinkedList *res = newLinkedList();
-
-  if(!insertInLinkedList(tmp, bst))
-    return NULL;
-  while (bst->key < keyMax) {
-    if (!insertInLinkedList(res, tmp->head->value))
-      return NULL;
-    if (bst->right != NULL)
-      if(!insertInLinkedList(tmp, bst->right))
-        return NULL;
-    if (bst->left != NULL)
-      if (!insertInLinkedList(tmp, bst->left))
-        return NULL;
-    tmp->head = tmp->head->next;
+  if(insertInLinkedList(tmp, bst->key)) {
+    printf("Le noeud racine à bien été rajouté !\n");
   }
-  freeLinkedList(tmp, true);
+
+  while (i < n) {
+    printf("Je rentre dans la boucle de traitement !\n");
+    if (0) {
+      printf("Je vérifie la valeur\n");
+      if(!insertInLinkedList(res, tmp->head->value)) {
+        freeLinkedList(res, true);
+        printf("Une ville à été ajouté dans res !\n");
+        return NULL;
+      }
+    }
+    if (bst->left != NULL) {
+      if(!insertInLinkedList(tmp, bst->left)) {
+        freeLinkedList(tmp, true);
+        printf("On traite le sous arbre gauche de l'arbre !\n");
+        return NULL;
+      }
+    }
+    if (bst->right != NULL) {
+      if(!insertInLinkedList(tmp, bst->right)) {
+        freeLinkedList(tmp, true);
+        printf("On traite le sous arbre droit de l'arbre\n");
+        return NULL;
+      }
+    }
+    if(tmp->head->next) {
+      tmp->head = tmp->head->next;
+      printf("Je passe au suivant !\n");
+    }
+    i = i + 1;
+  }
+  freeLinkedList(tmp, false);
   return res;
-}
-
-void print_inorder(const BinarySearchTree *bst) {
-  if (bst != NULL) {
-    print_inorder(bst->left);
-    printf("%f",*(float *) bst->key);
-    print_inorder(bst->right);
-  }
 }

@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/10 21:13:18 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/11 15:04:27 by Dryska           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ LinkedList* findCities(LinkedList* cities,
   }
   if (error) {
     puts("Error while inserting");
-    freeBST(bst, true);
+    //freeBST(bst, true);
     return NULL;
   }
-  print_inorder(bst);
   printf("Taille de l'arbre Avant get in range: %lu\n", sizeOfBST(bst));
   filtered = getInRange(bst, &latitudeMin, &latitudeMax);
   printf("Taille de l'arbre : %lu\n", sizeOfBST(bst));
-  freeBST(bst, true);
+  //freeBST(bst, true);
   return filtered;
 }

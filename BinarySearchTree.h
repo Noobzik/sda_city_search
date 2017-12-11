@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:16:51 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 21:47:33 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/11 15:04:30 by Dryska           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 /* Opaque Structure */
 typedef struct tree_t BinarySearchTree;
-void print_inorder(const BinarySearchTree *bst);
 
 
 /* ------------------------------------------------------------------------- *
