@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/10 21:52:49 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/11 21:54:59 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ struct                tree_t {
   struct tree_t       *left;
   const void*          key;
   const void*          value;
+  int (*compare)      (const void*, const void*);
   struct tree_t       *right;
 };
 
@@ -51,14 +52,16 @@ struct                tree_t {
  *
  */
 
-BinarySearchTree* newBST () {
+BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
   BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
+//  int (*comparison_fn_t)(const void*, const void*);
   assert(res != NULL);
   res->value = NULL;
   res->key = NULL;
   res->right  = 0;
   res->left   = 0;
   res->root   = 0;
+  res->compare = comparison_fn_t;
   return res;
 }
 

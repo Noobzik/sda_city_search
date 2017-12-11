@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/12/09 20:21:58 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/11 21:24:23 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,3 +86,9 @@ rebuild-run: rebuild
 build-run:$(FICHIER)
 	$(CC) $(FICHIER) $(CFLAGS) -o $(OUT)
 	./$(OUT)
+
+debug: all
+	valgrind ./boxsearch cities_10.csv 1 1 10 10
+
+debug1000: all
+	valgrind ./boxsearch cities_1000.csv 1 1 10 10

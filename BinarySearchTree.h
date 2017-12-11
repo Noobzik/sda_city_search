@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:16:51 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/09 21:47:33 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/11 21:27:40 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void print_inorder(const BinarySearchTree *bst);
  * BinarySearchTree bst = newBST(&compare_doubles);
  * ------------------------------------------------------------------------- */
 
-BinarySearchTree* newBST(void);
+BinarySearchTree* newBST(int comparison_fn_t(const void*, const void*));
 
 /* ------------------------------------------------------------------------- *
  * Frees the allocated memory of the given BinarySearchTree.
