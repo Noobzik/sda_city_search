@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/11 21:54:59 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/15 10:37:08 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ struct                tree_t {
  * BinarySearchTree bst = newBST(&compare_doubles);
  *
  */
-
 BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
   BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
-//  int (*comparison_fn_t)(const void*, const void*);
   assert(res != NULL);
   res->value = NULL;
   res->key = NULL;
@@ -65,6 +63,14 @@ BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
   return res;
 }
 
+int comparison_fn_t(const void* a, const void* b) {
+  const double *a_ = a;
+  const double *b_ = b;
+
+  if (*a_ - *b_ > 0) return 1;
+  if (*a_ - *b_ < 0) return -1;
+  return 0;
+}
 /**
  * Frees the allocated memory of the given BinarySearchTree.
  *
@@ -176,7 +182,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return insertInBST (bst->right, key, value);
     }
     else {
-      BinarySearchTree *tmp = newBST();
+      BinarySearchTree *tmp = newBST(&comparison_fn_t);
       tmp->key   = key;
       tmp->value = value;
       tmp->root  = bst;
@@ -189,7 +195,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return insertInBST(bst->left, key, value);
     }
     else {
-      BinarySearchTree *tmp = newBST();
+      BinarySearchTree *tmp = newBST(&comparison_fn_t);
       tmp->key = key;
       tmp->value = value;
       tmp->root  = bst;
