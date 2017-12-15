@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/10 21:13:18 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/15 11:04:53 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 #include "BinarySearchTree.h"
 #include <stdio.h>
 
+int comparison_fn_t(const void* a, const void* b);
+
 LinkedList* findCities(LinkedList* cities,
                        double latitudeMin,
                        double latitudeMax,
                        double longitudeMin,
                        double longitudeMax) {
 
-  BinarySearchTree *bst = newBST();
+  BinarySearchTree *bst = newBST(&comparison_fn_t);
   (void)           longitudeMax;
   (void)           longitudeMin;
   LinkedList       *filtered;
@@ -46,4 +48,10 @@ LinkedList* findCities(LinkedList* cities,
   printf("Taille de l'arbre : %lu\n", sizeOfBST(bst));
   freeBST(bst, true);
   return filtered;
+}
+
+int comparison_fn_t(const void* a, const void* b) {
+  const double *a_ = a;
+  const double *b_ = b;
+  return  (*a_ > *b_) - (*a_ < *b_);
 }
