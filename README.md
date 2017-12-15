@@ -25,7 +25,11 @@ They should return a list of size 0. The header files and the submission platfor
 
 ___
 
-### Insert In BST is now fixed ###
+*   **Insert In BST is now fixed**
+*   **getInRange is now fixed**
+La complexité de la fonction getInRange est de O(n) n représente le nombre de nodes dans l'arbre binaire.
+
+*   ***freeBST for false statement is broken (not freeing)***
 
 ### FreeBST par Rakib ###
 
@@ -35,6 +39,7 @@ si on veut supprimer son contenue, c'est-à-dire fils gauche et fils droit.
 La fonction est divisé en deux bloc, on commence par le plus compliqué.
 
 #### Cas où freeContent est ***false*** ####
+Attention, il ne fait pas de free, je l'ai remarqué en testant le prog.
 
 Il y a 3 cas distincs
 1.   Il y a les deux fils.
