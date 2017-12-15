@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/15 19:11:08 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/15 20:22:53 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ struct                tree_t {
 };
 
 void *extractFile(LinkedList *file);
-// int comparison_fn_t(const void* , const void* );
 
 /**
  * Creates an empty BinarySearchTree (or BST).
@@ -85,14 +84,9 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
   BinarySearchTree *y;
   BinarySearchTree *tmp;
 
-  if (sizeOfBST(bst) == 0) {
-    puts("Je suis la dans size = 0");
-    free(bst);
-    return;
-  }
+  if (!bst) return;
 
-  if (freeContent == false) {
-
+   if (freeContent == false) {
 
     if (!(bst->left) && !(bst->right)) {
       bst = bst->right;
@@ -131,6 +125,7 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
     }
   }
 }
+
 
 /**
  * Return the number of cityes contained in the tree.
