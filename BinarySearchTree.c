@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/15 11:08:59 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/15 19:11:08 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ struct                tree_t {
   struct tree_t       *right;
 };
 
+void *extractFile(LinkedList *file);
 // int comparison_fn_t(const void* , const void* );
 
 /**
@@ -126,8 +127,6 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
     if (bst) {
       freeBST(bst->left, true);
       freeBST(bst->right, true);
-      free((void*)bst->value);
-      free((void*)bst->key);
       free(bst);
     }
   }
@@ -239,77 +238,54 @@ const void* searchBST (BinarySearchTree* bst, const void* key) {
  * The linkedList must be freed but not its content
  * If no elements are in the range, the function returns an empty linked-list
  * ------------------------------------------------------------------------- */
-/*
-LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
-  assert(bst != NULL);
-
-  if (bst->key < keyMin) {
-    return getInRange(bst->right, keyMin, keyMax);
-  }
-  if (bst->key > keyMax) {
-    return getInRange(bst->left, keyMin, keyMax);
-  }
-
-  LinkedList* tmp = 0;
-  LinkedList* res = 0;
-
-  insertInLinkedList(tmp, bst);
-  while ((sizeOfLinkedList(tmp) < sizeOfBST(bst)) && (tmp->head != tmp->last)) {
-    insertInLinkedList(res, tmp->head->value);
-    if (bst->right != NULL) insertInLinkedList(tmp, bst->right);
-    if (bst->left != NULL) insertInLinkedList(tmp, bst->left);
-    tmp->head = tmp->head->next;
-  }
-  return res;
-
-}*/
-/**
- * Function edited by noobzik thinking in case of major breakdown
- *
- * @param  bst    [description]
- * @param  keyMin [description]
- * @param  keyMax [description]
- * @return        [description]
- */
 
 LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
-  puts("Inside getInRange");
-  if (sizeOfBST(bst) == 0)
-    return newLinkedList();
+  LinkedList* file = newLinkedList();
+  LinkedList* res = newLinkedList();
+  BinarySearchTree *temp = (BinarySearchTree *) bst;
 
-  while (bst->key != keyMin) {
-    (bst->key < keyMin) ?   (bst = bst->left) :
-                            (bst = bst->right);
-    if (bst->left == NULL && bst->right == NULL)
-      return newLinkedList();
-    if (bst->key == keyMin) break;
-    else                    continue;
+  if (temp->compare(keyMin, keyMin) == 0)
+
+  while (temp) {
+
+    if (temp->compare(keyMin, temp->key) < 0
+        && temp->compare(temp->key, keyMax) < 0)
+      if (!insertInLinkedList(res, temp->value)) return NULL;
+
+    if (temp->left)
+      if (!insertInLinkedList(file, temp->left)) return NULL;
+    if (temp->right)
+      if (!insertInLinkedList(file, temp->right)) return NULL;
+    temp = extractFile(file);
   }
-
-  LinkedList *tmp = newLinkedList();
-  LinkedList *res = newLinkedList();
-
-  if(!insertInLinkedList(tmp, bst))
-    return NULL;
-  while (bst->key < keyMax) {
-    if (!insertInLinkedList(res, tmp->head->value))
-      return NULL;
-    if (bst->right != NULL)
-      if(!insertInLinkedList(tmp, bst->right))
-        return NULL;
-    if (bst->left != NULL)
-      if (!insertInLinkedList(tmp, bst->left))
-        return NULL;
-    tmp->head = tmp->head->next;
-  }
-  freeLinkedList(tmp, true);
+  freeLinkedList(file,false);
   return res;
 }
 
-void print_inorder(const BinarySearchTree *bst) {
-  if (bst != NULL) {
-    print_inorder(bst->left);
-    printf("%f",*(float *) bst->key);
-    print_inorder(bst->right);
+/**
+ * Extract a node at the end of the queue
+ * @param file A LinkedList
+ * @return A generic pointer to the data.
+ */
+void *extractFile(LinkedList *file) {
+  void *res = 0;
+  LLNode* node = 0;
+
+  if (!(file->size == 0)) {
+    node = file->head;
+    file->head = node->next;
+    file->size--;
+    if (!(file->size == 0)) {
+      node->next = 0;
+    }
+    else {
+      file->head = 0;
+      file->last = 0;
+    }
   }
+
+  if (node) res = (void *) node->value;
+
+  free(node);
+  return res;
 }
