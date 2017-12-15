@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dryska <Emeric.Bayard@Outlook.fr>          +#+  +:+       +#+        */
+/*   By: Dryska <rakib.hernandez@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2017/12/06 22:41:13 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/15 22:15:58 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "LinkedList.h"
 #include "intersect.h"
+#include <stdio.h>
 
 /* ------------------------------------------------------------------------- *
  * Computes the intersection of `listA` and `listB`. Both lists must contain
@@ -46,10 +47,14 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
   LLNode *tmpA = listA->head;
   LLNode *tmpB = listB->head;
   LinkedList* listC = newLinkedList();
-
-  while (tmpA != listA->last) {
-    while (tmpB != listB->last) {
-      if (comparison_fn_t(tmpA->value, tmpB->value) == 0) {
+  if (tmpA) {
+    puts("Am i here ?");
+  }
+  while (tmpA) {
+    puts("Checking first while");
+    while (tmpB) {
+      printf("La comparaison est : %d", comparison_fn_t(tmpA->value, tmpB->value));
+      if (comparison_fn_t(tmpA->value, tmpB->value) == 1) {
         if(!insertInLinkedList(listC, tmpA->value))
           return NULL;
       }
