@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:16:51 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/11/30 21:42:45 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/11 21:27:40 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,17 @@
 
 #include <stddef.h>
 #include <stdbool.h>
-#include "City.h"
 #include "LinkedList.h"
 
 /* Opaque Structure */
-struct        tree_t {
-	struct tree_t *     left;
-	double              keys[2];
-	struct tree_t *     right;
-};
 typedef struct tree_t BinarySearchTree;
+void print_inorder(const BinarySearchTree *bst);
+
 
 /* ------------------------------------------------------------------------- *
  * Creates an empty BinarySearchTree (or BST).
  *
- * The BST must later be deleted by calling freeBinarySearchTree().
+ * The BST must later be deleted by calling freeBinarySearchTree(BST, true).
  *
  * ARGUMENT
  * comparison_fn_t      A comparison function
@@ -58,7 +54,7 @@ typedef struct tree_t BinarySearchTree;
  * BinarySearchTree bst = newBST(&compare_doubles);
  * ------------------------------------------------------------------------- */
 
-BinarySearchTree* newBST(int comparison_fn_t(const void *, const void *));
+BinarySearchTree* newBST(int comparison_fn_t(const void*, const void*));
 
 /* ------------------------------------------------------------------------- *
  * Frees the allocated memory of the given BinarySearchTree.

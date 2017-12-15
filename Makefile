@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/11/30 21:16:48 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/11 21:24:23 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,10 @@ CFLAGS = -g -O3 $(WARNING) -std=c99
 # On force la derniere norme de compilation qui est C11
 
 #Liste des fichiers *.o à rassembler en un executable
-FICHIER = findCitiesList.o LinkedList.o zscore.o main.o
+# FICHIER = findCitiesList.o LinkedList.o main.o BinarySearchTree.o
+#
+# Premier alogrithme sur latitude
+FICHIER = findCities1BST.o LinkedList.o main.o BinarySearchTree.o
 
 #Programme après la compilation
 OUT = boxsearch
@@ -45,11 +48,10 @@ all:$(FICHIER)
 findCitiesList.o:findCitiesList.c
 	$(CCSEP) findCitiesList.c
 
+findCities1BST.o:findCities1BST.c
+	$(CCSEP) findCities1BST.c
 LinkedList.o:LinkedList.c
 	$(CCSEP) LinkedList.c
-
-main.o:main.c
-	$(CCSEP) main.c
 
 zscore.o:zscore.c
 	$(CCSEP) zscore.c
@@ -84,3 +86,9 @@ rebuild-run: rebuild
 build-run:$(FICHIER)
 	$(CC) $(FICHIER) $(CFLAGS) -o $(OUT)
 	./$(OUT)
+
+debug: all
+	valgrind ./boxsearch cities_10.csv 1 1 10 10
+
+debug1000: all
+	valgrind ./boxsearch cities_1000.csv 1 1 10 10
