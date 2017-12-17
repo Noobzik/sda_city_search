@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/12/15 21:47:07 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/17 19:08:57 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,14 +39,11 @@ OUT = boxsearch
 #Compilation séparé
 CCSEP = $(CC) -c $(CFLAGS)
 
-all:$(FICHIER)
-	$(CC) $(FICHIER) $(CFLAGS) -o $(OUT)
-
 0:$(FICHIER0)
 	$(CC) $(FICHIER0) $(CFLAGS) -o $(OUT)
 
 1:$(FICHIER1)
-	$(CC) $(FICHIER0) $(CFLAGS) -o $(OUT)
+	$(CC) $(FICHIER1) $(CFLAGS) -o $(OUT)
 
 2:$(FICHIER2)
 	$(CC) $(FICHIER2) $(CFLAGS) -o $(OUT)
@@ -103,7 +100,7 @@ build-run:$(FICHIER)
 	./$(OUT)
 
 debug:
-	valgrind ./$(OUT) cities_10.csv 1 10 1 10
+	valgrind ./$(OUT) cities_10.csv 1 1 10 10
 
 debug1000:
-	valgrind ./$(OUT) cities_1000.csv 1 10 1 10
+	valgrind ./$(OUT) cities_1000.csv 1 1 10 10
