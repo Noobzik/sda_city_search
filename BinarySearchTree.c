@@ -241,7 +241,7 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
   LinkedList* res = newLinkedList();
   BinarySearchTree *temp = (BinarySearchTree *) bst;
 
-  if (temp->compare(keyMin, keyMin) == 0)
+
 
   while (temp) {
 
