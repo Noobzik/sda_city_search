@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/12/11 21:24:23 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/17 19:08:57 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,15 @@ WARNING :=  -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
 CFLAGS = -g -O3 $(WARNING) -std=c99
 
 # On force la derniere norme de compilation qui est C11
-
+FICHIER =
 #Liste des fichiers *.o à rassembler en un executable
-# FICHIER = findCitiesList.o LinkedList.o main.o BinarySearchTree.o
+FICHIER0 = findCitiesList.o LinkedList.o main.o BinarySearchTree.o
 #
-# Premier alogrithme sur latitude
-FICHIER = findCities1BST.o LinkedList.o main.o BinarySearchTree.o
+# Premier alogrithme sur latitude + filtre longitude
+FICHIER1 = findCities1BST.o LinkedList.o main.o BinarySearchTree.o
+
+# Deuxieme alogrithme sur intersect de 2 ABR
+FICHIER2 = findCities2BST.o LinkedList.o main.o BinarySearchTree.o intersect.o
 
 #Programme après la compilation
 OUT = boxsearch
@@ -36,9 +39,14 @@ OUT = boxsearch
 #Compilation séparé
 CCSEP = $(CC) -c $(CFLAGS)
 
-all:$(FICHIER)
-	$(CC) $(FICHIER) $(CFLAGS) -o $(OUT)
+0:$(FICHIER0)
+	$(CC) $(FICHIER0) $(CFLAGS) -o $(OUT)
 
+1:$(FICHIER1)
+	$(CC) $(FICHIER1) $(CFLAGS) -o $(OUT)
+
+2:$(FICHIER2)
+	$(CC) $(FICHIER2) $(CFLAGS) -o $(OUT)
 # Ici les dépendances de compilation de chaque ficher
 # La commande à utiliser est $(CCSEP) ficher.c
 # Exemple
@@ -50,6 +58,10 @@ findCitiesList.o:findCitiesList.c
 
 findCities1BST.o:findCities1BST.c
 	$(CCSEP) findCities1BST.c
+
+findCities2BST.o:findCities2BST.c
+	$(CCSEP) findCities2BST.c
+
 LinkedList.o:LinkedList.c
 	$(CCSEP) LinkedList.c
 
@@ -87,8 +99,8 @@ build-run:$(FICHIER)
 	$(CC) $(FICHIER) $(CFLAGS) -o $(OUT)
 	./$(OUT)
 
-debug: all
-	valgrind ./boxsearch cities_10.csv 1 1 10 10
+debug:
+	valgrind ./$(OUT) cities_10.csv 1 1 10 10
 
-debug1000: all
-	valgrind ./boxsearch cities_1000.csv 1 1 10 10
+debug1000:
+	valgrind ./$(OUT) cities_1000.csv 1 1 10 10

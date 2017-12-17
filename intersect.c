@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dryska <Emeric.Bayard@Outlook.fr>          +#+  +:+       +#+        */
+/*   By: Dryska <rakib.hernandez@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2017/12/06 22:41:13 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/17 19:38:36 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "LinkedList.h"
 #include "intersect.h"
+#include <stdio.h>
 
 /* ------------------------------------------------------------------------- *
  * Computes the intersection of `listA` and `listB`. Both lists must contain
@@ -47,8 +48,8 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
   LLNode *tmpB = listB->head;
   LinkedList* listC = newLinkedList();
 
-  while (tmpA != listA->last) {
-    while (tmpB != listB->last) {
+  while (tmpA) {
+    while (tmpB) {
       if (comparison_fn_t(tmpA->value, tmpB->value) == 0) {
         if(!insertInLinkedList(listC, tmpA->value))
           return NULL;
