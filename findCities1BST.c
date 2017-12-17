@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/15 21:05:32 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/17 21:26:33 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ LinkedList* findCities(LinkedList* cities,
                        double longitudeMin,
                        double longitudeMax) {
 
-  BinarySearchTree *bst = newBST(&comparison_fn_t);
-  LinkedList       *filtered;
-  LinkedList       *res = newLinkedList();
-  const City       *city;
-  int i = -1;
+  BinarySearchTree    *bst = newBST(&comparison_fn_t);
+  LinkedList          *filtered;
+  const City          *city;
+  int                 i     = -1;
+  bool                error = false;
+  LLNode              *curr = cities->head;
+  LinkedList          *res  = newLinkedList();
 
-  LLNode* curr = cities->head;
-  bool error = false;
   while (!error && curr != NULL) {
     city = (const City*)curr->value;
     error = error || !insertInBST(bst, &city->latitude, curr->value);

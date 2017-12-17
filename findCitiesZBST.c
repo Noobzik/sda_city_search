@@ -6,14 +6,15 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/17 20:30:17 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/17 21:32:35 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "zscore.h"
-#include "BinarySearchTree.h"
-#include "findCities.h"
 #include "City.h"
+#include "findCities.h"
+#include "LinkedList.h"
+#include "BinarySearchTree.h"
 #include <stdio.h>
 
 int comparison_fn_t (const void *a, const void *b);
@@ -39,29 +40,30 @@ LinkedList* findCities(LinkedList* cities,
                        double longitudeMin,
                        double longitudeMax) {
 
-  BinarySearchTree   *bst = newBST(&comparison_fn_t);
-  LinkedList         *filtered;
-  LLNode             *curr;
-  const City         *city;
-  bool               error = false;
-  uint64_t           coded;
-  uint64_t           max = zEncode(latitudeMax, longitudeMax);
-  uint64_t           min = zEncode(latitudeMin, longitudeMin);
+  BinarySearchTree    *bst = newBST(&comparison_fn_t);
+  LinkedList          *filtered;
+  const City          *city;
+  uint64_t            coded;
+  bool                error = false;
+  LLNode              *curr = cities->head;
+  uint64_t            max   = zEncode(latitudeMax, longitudeMax);
+  uint64_t            min   = zEncode(latitudeMin, longitudeMin);
 
-  printf("Maximum morton code : %d\n", (int) max);
   printf("Minimum morton code : %d\n", (int) min);
-  curr = cities->head;
+  printf("Maximum morton code : %d\n", (int) max);
+
   while (!error && curr != NULL) {
     city = (const City *) curr->value;
     coded = zEncode(city->latitude, city->longitude);
     printf("Coded = %d\n", (int) coded);
-    error = error || !insertInBST(bst, &coded, city);
+    error = error || !insertInBST(bst, &coded, curr->value);
     curr = curr->next;
   }
 
   if (error) {
     puts("Error while inserting");
     freeBST(bst, true);
+    freeLinkedList(cities, true);
     return NULL;
   }
 

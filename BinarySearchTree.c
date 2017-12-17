@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/15 20:22:53 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/17 21:17:24 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,8 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
     bst->value = value;
     return true;
   }
-  if (key > bst->key) {
+  printf("Current code in node : %d\n", *(int *) bst->key);
+  if (bst->compare(key, bst->key) > 0) {
     if (bst->right) {
       return insertInBST (bst->right, key, value);
     }
@@ -177,7 +178,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return true;
     }
   }
-  if (key < bst->key) {
+  if (bst->compare(key,bst->key) < 0) {
     if (bst->left) {
       return insertInBST(bst->left, key, value);
     }
@@ -190,6 +191,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return true;
     }
   }
+  printf("Code comparé : %d / %d\n", *(int *) bst->key, *(int *) key);
   return false;
 }
 
