@@ -6,7 +6,7 @@
 #    By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/28 12:22:35 by NoobZik           #+#    #+#              #
-#    Updated: 2017/12/17 19:08:57 by NoobZik          ###   ########.fr        #
+#    Updated: 2017/12/17 20:14:00 by NoobZik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,10 @@ FICHIER1 = findCities1BST.o LinkedList.o main.o BinarySearchTree.o
 # Deuxieme alogrithme sur intersect de 2 ABR
 FICHIER2 = findCities2BST.o LinkedList.o main.o BinarySearchTree.o intersect.o
 
+# Troiseme alogrithme sur le code morton sur ABR
+FICHIER3 = findCitiesZBST.o LinkedList.o main.o BinarySearchTree.o intersect.o \
+		zscore.o
+
 #Programme après la compilation
 OUT = boxsearch
 
@@ -47,6 +51,9 @@ CCSEP = $(CC) -c $(CFLAGS)
 
 2:$(FICHIER2)
 	$(CC) $(FICHIER2) $(CFLAGS) -o $(OUT)
+
+3:$(FICHIER3)
+	$(CC) $(FICHIER3) $(CFLAGS) -o $(OUT)
 # Ici les dépendances de compilation de chaque ficher
 # La commande à utiliser est $(CCSEP) ficher.c
 # Exemple
@@ -61,6 +68,9 @@ findCities1BST.o:findCities1BST.c
 
 findCities2BST.o:findCities2BST.c
 	$(CCSEP) findCities2BST.c
+
+findCitiesZBST.o:findCitiesZBST.c
+	$(CCSEP) findCitiesZBST.c
 
 LinkedList.o:LinkedList.c
 	$(CCSEP) LinkedList.c
