@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:39:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/15 22:34:15 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/17 19:40:48 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <string.h>
 
 int comparison_fn_t(const void *a, const void *b);
-int comparison_city_t(const void* a, const void* b);
 /* ------------------------------------------------------------------------- *
  * Find all the cities in a box.
  *
@@ -59,8 +58,6 @@ LinkedList* findCities(LinkedList* cities,
   }
 
   filtered_lat = getInRange(bst_lat, &latitudeMin, &latitudeMax);
-  printf("Size of filtered_lat%d\n", (int)filtered_lat->size);
-  /** Longitude **/
 
   curr = cities->head;
   error = false;
@@ -80,21 +77,14 @@ LinkedList* findCities(LinkedList* cities,
   return res;
 }
 
+/**
+ * COMPARISON FUNCTION
+ * comparison_fn_t(a, b) < 0    <=> a < b
+ * comparison_fn_t(a, b) = 0    <=> a == b
+ * comparison_fn_t(a, b) > 0    <=> a > b
+ */
 int comparison_fn_t(const void* a, const void* b) {
   const double *a_ = a;
   const double *b_ = b;
   return  (*a_ > *b_) - (*a_ < *b_);
-}
-
-int comparison_city_t(const void* a, const void* b) {
-  const City *a_ = a;
-  const City *b_ = b;
-
-  if (strcmp(a_->name, b_->name) == 0) {
-    if (a_->latitude == b_->latitude) {
-      if (a_->longitude == b_->longitude)
-        return 1;
-    }
-  }
-  return  0;
 }
