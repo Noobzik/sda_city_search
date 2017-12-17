@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/17 21:32:35 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/17 22:51:43 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ LinkedList* findCities(LinkedList* cities,
   LLNode              *curr = cities->head;
   uint64_t            max   = zEncode(latitudeMax, longitudeMax);
   uint64_t            min   = zEncode(latitudeMin, longitudeMin);
+  int i = -1;
 
   printf("Minimum morton code : %d\n", (int) min);
   printf("Maximum morton code : %d\n", (int) max);
@@ -55,7 +56,7 @@ LinkedList* findCities(LinkedList* cities,
   while (!error && curr != NULL) {
     city = (const City *) curr->value;
     coded = zEncode(city->latitude, city->longitude);
-    printf("Coded = %d\n", (int) coded);
+    printf("%d) Coded = %d\n",++i, (int) coded);
     error = error || !insertInBST(bst, &coded, curr->value);
     curr = curr->next;
   }
