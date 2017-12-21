@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/17 22:51:26 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/21 16:01:57 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+// Opaque struct
 struct                tree_t {
   struct tree_t       *root;
   struct tree_t       *left;
@@ -81,45 +82,21 @@ BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
  */
 
 void freeBST (BinarySearchTree* bst, bool freeContent){
-  BinarySearchTree *y;
-  BinarySearchTree *tmp;
 
   if (!bst) return;
 
    if (freeContent == false) {
-
-    if (!(bst->left) && !(bst->right)) {
-      bst = bst->right;
-      return;
-    }
-
-    if (bst->left && !(bst->right)) {
-      bst = bst->left;
-      return;
-    }
-
-    if (bst->left && bst->right) {
-      if (!(bst->right->left)) {
-        bst->right->left = bst->left;
-        bst = bst->right;
-      }
-      else {
-        y = bst;
-        while (y->left)
-          y = y->left;
-        tmp = y;
-        y = tmp->right;
-        tmp->left = bst->left;
-        tmp->right = bst->right;
-        bst = tmp;
-      }
-      return;
-    }
+     if (bst) {
+      freeBST(bst->left, false);
+      freeBST(bst->right, false);
+      free(bst);
+     }
   }
 
   else {
     if (bst) {
       freeBST(bst->left, true);
+      free((void *)bst->value);
       freeBST(bst->right, true);
       free(bst);
     }
@@ -160,23 +137,16 @@ size_t sizeOfBST (const BinarySearchTree* bst) {
 
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
   if (!bst->key) {
-    puts("The current node is voided, adding keys...");
     bst->key = key;
     bst->value = value;
-    printf("Added : %d\n", *(int *) bst->key);
     return true;
   }
-  printf("Current code in node : %d\n", *(int *) bst->key);
-  printf("Test A > B : %d\n", bst->compare(&key, &bst->key) > 0);
-  printf("Test A < B : %d\n", bst->compare(&key, &bst->key) < 0);
 
-  if (bst->compare(&key, &bst->key) > 0) {
-    puts("Key is greater than the node, going right");
+  if (bst->compare(key, bst->key) > 0) {
     if (bst->right) {
       return insertInBST (bst->right, key, value);
     }
     else {
-      puts("Did I enter here ?");
       BinarySearchTree *tmp = newBST(bst->compare);
       tmp->key   = key;
       tmp->value = value;
@@ -185,13 +155,11 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return true;
     }
   }
-  if (bst->compare(&key, &bst->key) < 0) {
-    puts("Key is lower than the node, going left");
+  if (bst->compare(key, bst->key) < 0) {
     if (bst->left) {
       return insertInBST(bst->left, key, value);
     }
     else {
-      puts("Or here ?");
       BinarySearchTree *tmp = newBST(bst->compare);
       tmp->key = key;
       tmp->value = value;
@@ -200,8 +168,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return true;
     }
   }
-  printf("Doublon detecté : %d / %d\n", *(int *) bst->key, *(int *) key);
-  return false;
+  return true;
 }
 
 
@@ -253,7 +220,6 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
 
 
   while (temp) {
-
     if (temp->compare(keyMin, temp->key) < 0
         && temp->compare(temp->key, keyMax) < 0)
       if (!insertInLinkedList(res, temp->value)) return NULL;

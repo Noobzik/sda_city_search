@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:39:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/17 19:40:48 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/21 11:18:18 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ LinkedList* findCities(LinkedList* cities,
 
   freeLinkedList(filtered_lat, false);
   freeLinkedList(filtered_lon, false);
-  freeBST(bst_lat, true);
-  freeBST(bst_lon, true);
+  freeBST(bst_lat, false);
+  freeBST(bst_lon, false);
   return res;
 }
 
@@ -83,8 +83,8 @@ LinkedList* findCities(LinkedList* cities,
  * comparison_fn_t(a, b) = 0    <=> a == b
  * comparison_fn_t(a, b) > 0    <=> a > b
  */
-int comparison_fn_t(const void* a, const void* b) {
-  const double *a_ = a;
-  const double *b_ = b;
-  return  (*a_ > *b_) - (*a_ < *b_);
-}
+ int comparison_fn_t(const void* a, const void* b) {
+   const double *a_ = a;
+   const double *b_ = b;
+   return  (*a_ > *b_) - (*a_ < *b_);
+ }

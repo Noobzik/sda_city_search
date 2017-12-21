@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/17 21:26:33 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/20 13:22:03 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ LinkedList* findCities(LinkedList* cities,
     curr = curr->next;
   }
 
-  freeBST(bst, true);
+  freeBST(bst, false);
   freeLinkedList(filtered, false);
   return res;
 }
