@@ -2,23 +2,23 @@
 
 ## Version : v0.01 (En cours de rédaction) ##
 
-*Cette norme est inspiré de l'école 42. Le but d'une norme est de rendre un code source facilement lisible par tout le monde.*
+*Cette norme est inspirée de l'école 42. Le but d'une norme est de rendre un code source facilement lisible par tout le monde.*
 
 La norme a deux objectifs principaux :
 *   Uniformiser vos codes afin que tout le monde
 puisse les lire facilement, membres du groupe, personnes extérieur et profs.
 *   Ecrire des codes simples et clairs.
 
-*Si vous êtes dans mon groupe, vous vous engager à respecter scrupulusement cette norme*
+*Si vous êtes dans mon groupe, vous vous engagez à respecter scrupuleusement cette norme.*
 
 # Pré-requis #
 
-*   Connaissance parfaite sur le fonctionnement environnement de développement GIT.
-*   Connaissance partiel du fonctionnement de Gitkraken.
-*   Aptitude à être autonome sur la correction des erreurs de compilations débile.
+*   Connaissances parfaites sur le fonctionnement environnement de développement GIT.
+*   Connaissances partiels du fonctionnement de Gitkraken.
+*   Aptitude à savoir être autonome sur la correction des erreurs de compilations débiles.
 *   Coder sur Atom ou Visual Code (**GEDIT STRICTEMENT BANNI**) Avec son header 42.
 
-**Note pour atom** : Vous devrez récuperer la version modifié du module header 42 à cette [adresse](https://gist.github.com/Noobzik/bb538da3d2e14997450e6b4e079cfd0b) (Il est écrit comment appliquer cette modification.).
+**Note pour atom** : vous devrez récupérer la version modifiée du module header 42 à cette [adresse](https://gist.github.com/Noobzik/bb538da3d2e14997450e6b4e079cfd0b) (Il est écrit comment appliquer cette modification.).
 
 **Quelques plugins pour simplifier la vie (atom)**
 *   Docblocker (Permet d'écrire les commentaire de manière rapide).
@@ -33,14 +33,14 @@ puisse les lire facilement, membres du groupe, personnes extérieur et profs.
 
 # Généralités sur GIT #
 
-On prends le soin de rappeler que le but de Git est de retracer l'historique des versions du programme / projet. Il est plus facile de revenir en arrière en cas d'introduction de bug.
+On prend le soin de rappeler que le but de Git est de retracer l'historique des versions du programme / projet. Il est plus facile de revenir en arrière en cas d'introduction de bug.
 
 Si ce n'est pas le cas, vous devez vous dispenser d'une [formation git](https://learngitbranching.js.org/).
 
 
 *   Un commit = une modification sur une fonction ou fonctionnement d'une fonctionnalité (Pas de 1 commit pour une liste de modification).
-*   S'il y a une erreur dans un code source du projet que vous ne pouvez pas le régler et qu'il est déjà commit, **vous devrez ouvrir un ticket de rapport de bug sur le répértoire concerné**.
-*   Tout les descriptions des commit devront clairement dire les modifications apporté.
+*   S'il y a une erreur dans un code source du projet que vous ne pouvez pas le régler et qu'il est déjà commit, **vous devrez ouvrir un ticket de rapport de bug sur le répertoire concerné**.
+*   Toutes les descriptions des commit devront clairement dire les modifications apportées.
 
 # Norme de programmation #
 
@@ -63,9 +63,9 @@ Chaque fichier doit commencer dès la première ligne par le header 42
 
 ```
 
-Chaque ligne ne devra pas dépasser 80 colonne y compris tabulation + espace !
+Chaque ligne ne devra pas dépasser 80 colonnes y compris tabulation + espace !
 
-**Une tabulation compte pour 2 espace et non pour 2 tabulation**
+**Une tabulation compte pour 2 espaces et non pour 2 tabulation**
 
 ### Commentaires ###
 
@@ -93,7 +93,7 @@ Il est strictement interdit utiliser les mots-clées suivantes :
 
 ### Identation générale ###
 
-*   L'indenation d'une fonction en générale se fait de la façon suivante :
+*   L'indenation d'une fonction en général se fait de la façon suivante :
 
 ```c
 // Une espace entre chaque mot clée
@@ -114,22 +114,22 @@ int foo()
 ```
 *   Une ligne vide ne doit pas contenir d’espace ou de tabulation.
 *   Dans le cas ou le prototypes d'une fonction dépasse 80 colonnes, il est toléré de retirer un espace.
-Dans ce cas, l'espace entre l'accolade ouvrante et la fin de parenthèse est prioritaire. Ensuite vient l'espace entre le type et la parenthèse ouvrante.
+Dans ce cas, l'espace entre l'accolade ouvrante et la fin de parenthèse est prioritaire. Ensuite, vient l'espace entre le type et la parenthèse ouvrante.
 
-*   Chaque opérateur (binaire ou ternaire) et opérande doivent être séparé par un espace et seulement un.
+*   Chaque opérateur (binaire ou ternaire) et opérande doivent être séparés par un espace et seulement un.
 
 *   Les mots clées suivantes :
 ```c
 if else for while
 /* et définition des fonctions */
 ```
-comportent un espace entre l'instruction et la parenthèse ouvrante.
+contiennent un espace entre l'instruction et la parenthèse ouvrante.
 
-*Accolade optionnel :*
+#### *Accolade optionnel :* ####
 
-Dans le cas ou il y a une seule instruction, on n'est pas obligé de mettre des accolades. (Cas particulier en C à voir plus loin).
+Dans le cas où il y a une seule instruction, on n'est pas obligé de mettre des accolades. (Cas particulier en C à voir plus loin).
 
-Les variables devront être alignée verticalement.
+Les variables devront être alignées verticalement.
 ```c
 // Correct
 int     boujour;
@@ -145,7 +145,7 @@ double poo;
 Vous pouvez retourner à la ligne lors d’une même instruction ou structure de contrôle, mais vous devez rajouter une indentation par parenthèse ou opérateur d’affectation. Les opérateurs doivent être en début de ligne.
 
 ```c
-// Correc
+// Correct
 while (jesuisunevariable < jesuisuneautrevariable && bruh ^ okay
        || voila) {
 
@@ -159,7 +159,7 @@ while (jesuisunevariable < jesuisuneautrevariable && bruh ^ okay ||
 ```
 
 Dès qu'il y a une instruction if - else avec une seule instruction chacune,
-on doit utiliser la condition tertiaire.
+on doit utiliser la condition ternaire.
 ```c
 // Incorrect
 if (voila) {
@@ -175,9 +175,18 @@ return (voila) ? true : false;
 
 **Cas particulier**
 
-Il existe un cas particulier auquel cette norme ne s'applique pas. Si l'instruction est *break* ou *continue*. Elle ne s'applique pas car ce sont des
-mot clées et non une instruction. Essayez vous aurez une erreur.
+Il existe un cas particulier auquel cette norme ne s'applique pas. Si l'instruction est *break* ou *continue*. Elle ne s'applique pas, car ce sont des mots clés et non une instruction. Essayez vous aurez une erreur.
 
+#### *Forme de la boucle itérative* ####
+
+Puisque les boucles for sont strictement interdit, votre boucle itérative sera donc.
+
+```c
+int i = -1;
+while (++i < max){
+  /* instrictions */
+}
+```
 
 <div class="page-break"></div>
 
@@ -186,7 +195,7 @@ mot clées et non une instruction. Essayez vous aurez une erreur.
 
 ### Compilation ###
 
-*   Votre code devras être compilé avec tout les warnings activés.
+*   Votre code devras être compilé avec tous les warnings activés.
 ```
 -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align
 -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations
@@ -194,7 +203,7 @@ mot clées et non une instruction. Essayez vous aurez une erreur.
 -Wuninitialized -Wconversion -Wstrict-prototypes
 ```
 *   Le code devra être compilé avec la dernière norme connue (C11) en plus des
-optimisations
+optimisations.
 
 ```
 -std=c11
@@ -203,8 +212,8 @@ optimisations
 
 ### Dossiers et emplacements des fichiers C / H / divers ###
 
-*   Tous les fichiers .c devront être dans le dossier "Sources"
-*   Tout les fichiers .h devront être dans le dossier "Headers"
+*   Tous les fichiers .c devront être dans le dossier "Sources".
+*   Tous les fichiers .h devront être dans le dossier "Headers".
 *   Les définitions des structures devront être dans le dossier "Headers/Structures".
 *   Les diverses documents devront être dans le dossier Ressources.
 
