@@ -2,11 +2,12 @@
 
 ## Membre du gourpe ##
 
-| Nom Prénom     | Numéro Etudiant | Pseudonyme |
-| :------------- | :-------------- | :--------- |
-| Bayard Emeric  | 11606611        | Dryska     |
-| Sheikh Rakib   | 11502605        | NoobZik    |
-| Yesli  Rayane  | 11507199        | soso7      |
+| Nom Prénom      | Numéro Etudiant | Pseudonyme |
+| :-------------  | :-------------- | :--------- |
+| Bayard Emeric   | 11606611        | Dryska     |
+| Sheikh Rakib    | 11502605        | NoobZik    |
+| Yesli  Rayane   | 11507199        | soso7      |
+| Belmaati Yacine | 11513398        | Laser1W    |
 
 ### Current version : Git init ###
 
