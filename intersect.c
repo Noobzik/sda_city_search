@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dryska <rakib.hernandez@gmail.com>         +#+  +:+       +#+        */
+/*   By: Dryska <emeric.bayard@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
 /*   Updated: 2017/12/17 19:38:36 by NoobZik          ###   ########.fr       */
