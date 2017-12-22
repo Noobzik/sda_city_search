@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/21 15:59:11 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/22 11:00:24 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,18 @@ LinkedList* findCities(LinkedList* cities,
                        double longitudeMin,
                        double longitudeMax) {
 
-  BinarySearchTree    *bst = newBST(&comparison_fn_t);
+  BinarySearchTree    *bst   = newBST(&comparison_fn_t);
   LinkedList          *filtered;
   const City          *city;
-  bool                error = false;
-  LLNode              *curr = cities->head;
+  bool                error  = false;
+  LLNode              *curr  = cities->head;
   uint64_t            *max   = (uint64_t *) zEncode(latitudeMax, longitudeMax);
   uint64_t            *min   = (uint64_t *) zEncode(latitudeMin, longitudeMin);
   u_unionCity_t       *unionCity_u;
-//  uint64_t             coded;
-  int i = 0;
+  int                 i      = 0;
 
   unionCity_u = malloc(sizeof(u_unionCity_t)* cities->size);
   city = (const City*)curr->value;
-
 
   while (!error && curr != NULL) {
     city = (const City *) curr->value;
@@ -71,7 +69,6 @@ LinkedList* findCities(LinkedList* cities,
     i++;
   }
 
-
   if (error) {
     puts("Error while inserting");
     freeBST(bst, true);
@@ -80,8 +77,6 @@ LinkedList* findCities(LinkedList* cities,
 
   filtered = getInRange(bst, &min, &max);
   freeBST(bst, false);
-
-
   free(unionCity_u);
   return filtered;
 }

@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/20 13:22:03 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/22 16:54:52 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ LinkedList* findCities(LinkedList* cities,
   curr = filtered->head;
   while (++i < (int) filtered->size && !error) {
     city = (const City*)curr->value;
-    if (comparison_fn_t(&longitudeMin, &city->longitude) < 0
-        && comparison_fn_t(&city->longitude, &longitudeMax) < 0)
+    if (comparison_fn_t(&longitudeMin, &city->longitude) <= 0
+        && comparison_fn_t(&city->longitude, &longitudeMax) <= 0)
          error = error || !insertInLinkedList(res, city);
     curr = curr->next;
   }

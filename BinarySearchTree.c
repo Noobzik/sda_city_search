@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/21 16:01:57 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/22 16:55:33 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
     return true;
   }
 
-  if (bst->compare(key, bst->key) > 0) {
+  if (bst->compare(key, bst->key) >= 0) {
     if (bst->right) {
       return insertInBST (bst->right, key, value);
     }
@@ -155,7 +155,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return true;
     }
   }
-  if (bst->compare(key, bst->key) < 0) {
+  if (bst->compare(key, bst->key) <= 0) {
     if (bst->left) {
       return insertInBST(bst->left, key, value);
     }
@@ -220,8 +220,8 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
 
 
   while (temp) {
-    if (temp->compare(keyMin, temp->key) < 0
-        && temp->compare(temp->key, keyMax) < 0)
+    if (temp->compare(keyMin, temp->key) <= 0
+        && temp->compare(temp->key, keyMax) <= 0)
       if (!insertInLinkedList(res, temp->value)) return NULL;
 
     if (temp->left)
