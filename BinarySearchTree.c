@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/22 16:55:33 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/26 21:01:50 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
+#include <inttypes.h>
 // Opaque struct
 struct                tree_t {
   struct tree_t       *root;

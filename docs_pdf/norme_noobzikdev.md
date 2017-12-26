@@ -258,8 +258,9 @@ inline void freeChar(char *b) {
 *   Un type énuméré doit commencer par e\_ et se termier par \_e.
 *   Un type union doit commencer par u\_ et se terminer par \_u.
 *   **Une variable globale doit commencer par g\_ et se terminer par \_g**
-*   Après l'accolade fermante, cette structure doit commencer par t\_ et se
+*   Après l'accolade fermante, cette structure doit commencer par s\_ et se
 terminer par \_t.
+*   
 *   Tous les macros seront écrite en anglais et en majuscule.
 
 *   Les variables et les noms doivent être alignée verticalement
@@ -272,10 +273,15 @@ typedef struct           s_structfoo_s {
   struct s_structfoo_s  \*c; //Sans le \
 }                        t_structfoo_t;
 
+typedef union           u_unionfoo_u {
+  int                   a;
+  double                b;
+}                       u_unionfoo_t;
+
 typedef enum e_steet_e{
   RUE,
   BOUVEVARD,
   AVENUE,
   ALLEE
-}            e_street_e;
+}            e_street_t;
 ```

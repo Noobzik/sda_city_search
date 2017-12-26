@@ -6,22 +6,22 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/22 11:00:24 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/26 22:00:56 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "zscore.h"
 #include "City.h"
 #include "findCities.h"
-#include "LinkedList.h"
 #include "BinarySearchTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int comparison_fn_t (const void *a, const void *b);
+inline int comparison_double_t(double a, double b);
 
 typedef union u_unionCity_u {
-  const City *city;
+  const City  *city;
   uint64_t    coded;
 }             u_unionCity_t;
 /* ------------------------------------------------------------------------- *
@@ -52,8 +52,12 @@ LinkedList* findCities(LinkedList* cities,
   const City          *city;
   bool                error  = false;
   LLNode              *curr  = cities->head;
-  uint64_t            *max   = (uint64_t *) zEncode(latitudeMax, longitudeMax);
-  uint64_t            *min   = (uint64_t *) zEncode(latitudeMin, longitudeMin);
+  LLNode              *temp;
+  LLNode              *prec;
+  uint64_t            min   = zEncode(latitudeMin, longitudeMin);
+  uint64_t            max   = zEncode(latitudeMax, longitudeMax);
+  uint64_t            *ptr_min = &min;
+  uint64_t            *ptr_max = &max;
   u_unionCity_t       *unionCity_u;
   int                 i      = 0;
 
@@ -61,13 +65,14 @@ LinkedList* findCities(LinkedList* cities,
   city = (const City*)curr->value;
 
   while (!error && curr != NULL) {
-    city = (const City *) curr->value;
-    unionCity_u[i].city = city;
+    unionCity_u[i].city = city = (const City *) curr->value;
     unionCity_u[i].coded = zEncode(city->latitude, city->longitude);
-    error = error || !insertInBST(bst, &unionCity_u[i].coded, curr->value);
+    if (min < unionCity_u[i].coded && unionCity_u[i].coded < max)
+      error = error || !insertInBST(bst, &unionCity_u[i].coded, curr->value);
     curr = curr->next;
     i++;
   }
+
 
   if (error) {
     puts("Error while inserting");
@@ -75,7 +80,29 @@ LinkedList* findCities(LinkedList* cities,
     return NULL;
   }
 
-  filtered = getInRange(bst, &min, &max);
+  filtered = getInRange(bst, ptr_min, ptr_max);
+
+  prec = curr = filtered->head;
+
+  while (curr) {
+    city = (const City *) curr->value;
+    if (!((comparison_double_t(city->longitude, longitudeMax) <= 0)
+          && (comparison_double_t(city->latitude, latitudeMax) <= 0)
+          && (comparison_double_t(latitudeMin, city->latitude) <= 0)
+          && (comparison_double_t(longitudeMin, city->longitude) <= 0))) {
+      if (filtered->head == curr)
+        filtered->head = curr->next;
+      temp = curr;
+      curr = curr->next;
+      prec->next = temp->next;
+      filtered->size--;
+      free(temp);
+    }
+    else {
+      prec = curr;
+      curr = curr->next;
+    }
+  }
   freeBST(bst, false);
   free(unionCity_u);
   return filtered;
@@ -85,4 +112,9 @@ int comparison_fn_t(const void* a, const void* b) {
   const uint64_t *a_ = a;
   const uint64_t *b_ = b;
   return  (*a_ > *b_) - (*a_ < *b_);
+}
+
+
+inline int comparison_double_t(double a, double b) {
+  return  (a > b) - (a < b);
 }
