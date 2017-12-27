@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/26 21:01:50 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/27 23:07:51 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void *extractFile(LinkedList *file);
  *
  */
 BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
-  BinarySearchTree *res = malloc(sizeof(BinarySearchTree));
+  BinarySearchTree *res = NULL;
+  res = malloc(sizeof(BinarySearchTree));
   assert(res != NULL);
   res->value = NULL;
   res->key = NULL;
@@ -115,7 +116,7 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
  * PURE
  */
 size_t sizeOfBST (const BinarySearchTree* bst) {
-  return (bst == 0) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
+  return (!bst) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
 
@@ -136,13 +137,15 @@ size_t sizeOfBST (const BinarySearchTree* bst) {
  */
 
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
+
   if (!bst->key) {
     bst->key = key;
     bst->value = value;
     return true;
   }
 
-  if (bst->compare(key, bst->key) >= 0) {
+
+  if (bst->compare(key, bst->key) > 0) {
     if (bst->right) {
       return insertInBST (bst->right, key, value);
     }
@@ -168,7 +171,7 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
       return true;
     }
   }
-  return true;
+  return false;
 }
 
 
@@ -217,9 +220,12 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
   LinkedList* res = newLinkedList();
   BinarySearchTree *temp = (BinarySearchTree *) bst;
 
+  if (sizeOfBST(bst) == 0 || sizeOfBST(bst) == 1)
+    return res;
 
-
+  assert(temp);
   while (temp) {
+    assert(temp->key);
     if (temp->compare(keyMin, temp->key) <= 0
         && temp->compare(temp->key, keyMax) <= 0)
       if (!insertInLinkedList(res, temp->value)) return NULL;
