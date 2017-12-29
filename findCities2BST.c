@@ -6,17 +6,16 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:39:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/21 11:18:18 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/29 01:02:32 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "City.h"
 #include "findCities.h"
-#include "LinkedList.h"
 #include "BinarySearchTree.h"
 #include "intersect.h"
 #include <stdio.h>
-#include <string.h>
+#include <assert.h>
 
 int comparison_fn_t(const void *a, const void *b);
 /* ------------------------------------------------------------------------- *
@@ -57,6 +56,12 @@ LinkedList* findCities(LinkedList* cities,
     curr = curr->next;
   }
 
+  if (error) {
+    puts("Error while inserting");
+    freeBST(bst_lat, true);
+    return NULL;
+  }
+
   filtered_lat = getInRange(bst_lat, &latitudeMin, &latitudeMax);
 
   curr = cities->head;
@@ -66,6 +71,13 @@ LinkedList* findCities(LinkedList* cities,
     error = error || !insertInBST(bst_lon, &city->longitude, curr->value);
     curr = curr->next;
   }
+
+  if (error) {
+    puts("Error while inserting");
+    freeBST(bst_lon, true);
+    return NULL;
+  }
+
   filtered_lon = getInRange(bst_lon, &longitudeMin, &longitudeMax);
 
   res = intersect(filtered_lat, filtered_lon, &comparison_fn_t);

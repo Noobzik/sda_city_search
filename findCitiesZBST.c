@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/26 22:00:56 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/29 01:08:24 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 #include "BinarySearchTree.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 int comparison_fn_t (const void *a, const void *b);
-inline int comparison_double_t(double a, double b);
+int comparison_double_t(double a, double b);
 
-typedef union u_unionCity_u {
+typedef struct u_unionCity {
   const City  *city;
   uint64_t    coded;
-}             u_unionCity_t;
+}             s_unionCity_t;
 /* ------------------------------------------------------------------------- *
  * Find all the cities in a box.
  *
@@ -47,28 +48,30 @@ LinkedList* findCities(LinkedList* cities,
                        double longitudeMin,
                        double longitudeMax) {
 
-  BinarySearchTree    *bst   = newBST(&comparison_fn_t);
-  LinkedList          *filtered;
   const City          *city;
-  bool                error  = false;
-  LLNode              *curr  = cities->head;
-  LLNode              *temp;
-  LLNode              *prec;
-  uint64_t            min   = zEncode(latitudeMin, longitudeMin);
-  uint64_t            max   = zEncode(latitudeMax, longitudeMax);
+  LinkedList          *filtered;
+  s_unionCity_t       *unionCity;
+  BinarySearchTree    *bst     = newBST(&comparison_fn_t);
+  LinkedList          *res     = newLinkedList();
+  LLNode              *curr    = cities->head;
+  bool                error    = false;
+  uint64_t            min      = zEncode(latitudeMin, longitudeMin);
+  uint64_t            max      = zEncode(latitudeMax, longitudeMax);
   uint64_t            *ptr_min = &min;
   uint64_t            *ptr_max = &max;
-  u_unionCity_t       *unionCity_u;
-  int                 i      = 0;
+  int                 i        = 0;
 
-  unionCity_u = malloc(sizeof(u_unionCity_t)* cities->size);
+  unionCity = malloc(sizeof(s_unionCity_t)* cities->size);
   city = (const City*)curr->value;
 
+  assert(-90 <= latitudeMin && latitudeMax <= 90);
+  assert(-180 <= longitudeMin && longitudeMax <= 180);
+
   while (!error && curr != NULL) {
-    unionCity_u[i].city = city = (const City *) curr->value;
-    unionCity_u[i].coded = zEncode(city->latitude, city->longitude);
-    if (min < unionCity_u[i].coded && unionCity_u[i].coded < max)
-      error = error || !insertInBST(bst, &unionCity_u[i].coded, curr->value);
+    assert(i < (int) cities->size);
+    unionCity[i].city = city = (const City *) curr->value;
+    unionCity[i].coded = zEncode(city->latitude, city->longitude);
+    error = error || !insertInBST(bst, &unionCity[i].coded, unionCity[i].city);
     curr = curr->next;
     i++;
   }
@@ -76,45 +79,71 @@ LinkedList* findCities(LinkedList* cities,
 
   if (error) {
     puts("Error while inserting");
-    freeBST(bst, true);
+    freeBST(bst, false);
     return NULL;
   }
 
   filtered = getInRange(bst, ptr_min, ptr_max);
 
-  prec = curr = filtered->head;
+  curr = filtered->head;
 
   while (curr) {
     city = (const City *) curr->value;
-    if (!((comparison_double_t(city->longitude, longitudeMax) <= 0)
+    if (city == NULL) {
+      curr = curr->next;
+      continue;
+    }
+    if ((comparison_double_t(city->longitude, longitudeMax) <= 0)
           && (comparison_double_t(city->latitude, latitudeMax) <= 0)
           && (comparison_double_t(latitudeMin, city->latitude) <= 0)
-          && (comparison_double_t(longitudeMin, city->longitude) <= 0))) {
-      if (filtered->head == curr)
-        filtered->head = curr->next;
-      temp = curr;
-      curr = curr->next;
-      prec->next = temp->next;
-      filtered->size--;
-      free(temp);
+          && (comparison_double_t(longitudeMin, city->longitude) <= 0)) {
+            error = error || !insertInLinkedList(res, city);
     }
-    else {
-      prec = curr;
-      curr = curr->next;
-    }
+    curr = curr->next;
   }
+
+  if (error) {
+    puts("Error while inserting");
+    freeLinkedList(filtered, false);
+    freeLinkedList(res, false);
+    freeBST(bst, false);
+    return NULL;
+  }
+
   freeBST(bst, false);
-  free(unionCity_u);
-  return filtered;
+  free(unionCity);
+  freeLinkedList(filtered, false);
+  return res;
 }
 
+/**
+ * Compare two Const void*
+ *
+ * a < b    <=>   foo(a,b) < 0
+ * a > b    <=>   foo(a,b) > 0
+ * a = b    <=>   foo(a,b) == 0
+ *
+ * @param a 1st void *
+ * @param b 2nd void *
+ * @return Boolean calculus.
+ */
 int comparison_fn_t(const void* a, const void* b) {
   const uint64_t *a_ = a;
   const uint64_t *b_ = b;
   return  (*a_ > *b_) - (*a_ < *b_);
 }
 
-
+/**
+ * Compare two Unit64 types
+ *
+ * a < b    <=>   foo(a,b) < 0
+ * a > b    <=>   foo(a,b) > 0
+ * a = b    <=>   foo(a,b) == 0
+ *
+ * @param a 1st uint64_t
+ * @param b 2nd uint64_t
+ * @return Boolean calculus.
+ */
 inline int comparison_double_t(double a, double b) {
   return  (a > b) - (a < b);
 }

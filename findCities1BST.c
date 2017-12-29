@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/26 22:00:28 by NoobZik          ###   ########.fr       */
+/*   Updated: 2017/12/29 01:01:37 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "findCities.h"
 #include "BinarySearchTree.h"
 #include <stdio.h>
+#include <assert.h>
 
 int comparison_fn_t(const void* a, const void* b);
 
@@ -30,6 +31,9 @@ LinkedList* findCities(LinkedList* cities,
   bool                error = false;
   LLNode              *curr = cities->head;
   LinkedList          *res  = newLinkedList();
+
+  assert(-90 <= latitudeMin && latitudeMax <= 90);
+  assert(-180 <= longitudeMin && longitudeMax <= 180);
 
   while (!error && curr != NULL) {
     city = (const City*)curr->value;
