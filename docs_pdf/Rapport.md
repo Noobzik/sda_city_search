@@ -172,7 +172,7 @@ $ time ./boxsearch cities_1000000.csv -1 -1 1 1
 | **Algorithme 2**   | 0.008s | 0.348s  | 2m44,94s | Supérieur à 30min\*     |
 | **Algorithme 3**   | 0.002s | 0.016s  | 0.152s   | 2,238s    |
 
-\* *La recherche à été abandonné par <kbd>CTRL</kbd>+<kbd>C</kbd> suite à la lenteur de l'algorithme.*
+\* *La recherche à été abandonné par* <kbd>CTRL</kbd>+<kbd>C</kbd> *suite à la lenteur de l'algorithme.*
 
 A partir de ce tableau comparatif entre ces trois algorithmes, il est évident que le deuxième algorithme prends le plus de temps à faire la recherche des villes. Ceci est clairement dû à l'implémentation médiocre au terme de complexité de la fonction intersection. On rapelle qu'il y a deux boucles whiles. On prend un élément et on parcourt toute la liste si elle y est. Sinon on passe au suivant. La complexité est alors de θ(4xN) + θ(N*M) ce qui est très lent.
 
