@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dryska <emeric.bayard@outlook.fr>          +#+  +:+       +#+        */
+/*   By: Dryska <rakib.hernandez@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2017/12/17 19:38:36 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/13 20:54:42 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** Previous algorithm wriiten by Dryska
+  * Major speed optimisation by NoobZik
+  */
+
 #include "LinkedList.h"
 #include "intersect.h"
+#include "City.h"
+#include <string.h>
 #include <stdio.h>
+#include <assert.h>
+
+void    MergeSort     (LLNode **L,           int cmp(const void*, const void*));
+LLNode* SortedMerge   (LLNode* a, LLNode* b, int cmp(const void*, const void*));
+void    FrontBackSplit(LLNode* source, LLNode** frontRef, LLNode** backRef);
 
 /* ------------------------------------------------------------------------- *
  * Computes the intersection of `listA` and `listB`. Both lists must contain
@@ -44,20 +55,111 @@
 
 LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
                       int comparison_fn_t(const void *, const void *)) {
+
   LLNode *tmpA = listA->head;
   LLNode *tmpB = listB->head;
   LinkedList* listC = newLinkedList();
+  int (*cmp) (const void*, const void*) = comparison_fn_t;
 
-  while (tmpA) {
-    while (tmpB) {
-      if (comparison_fn_t(tmpA->value, tmpB->value) == 0) {
-        if(!insertInLinkedList(listC, tmpA->value))
-          return NULL;
+  MergeSort(&tmpA, comparison_fn_t);
+  MergeSort(&tmpB, comparison_fn_t);
+
+  while (tmpA && tmpB) {
+    if (cmp(tmpA->value, tmpB->value) < 0)
+      tmpA = tmpA->next;
+    else if (cmp(tmpA->value, tmpB->value) > 0)
+      tmpB = tmpB->next;
+    else if(cmp(tmpA->value, tmpB->value) == 0){
+      if(!insertInLinkedList(listC, tmpA->value)) {
+        freeLinkedList(listC, false);
+        printf("Assertion failed line 73, intersection.c.)"
+               " insertInLinkedList(listC, tmp->value)\n");
+        return NULL;
       }
+      tmpA = tmpA->next;
       tmpB = tmpB->next;
     }
-    tmpA = tmpA->next;
-    tmpB = listB->head;
+    else {
+      puts("Erreur de comparaison");
+      break;
+    }
   }
+
   return listC;
+}
+
+void MergeSort(LLNode **L, int cmp(const void*, const void*)) {
+
+  LLNode* head = *L;
+  LLNode* a;
+  LLNode* b;
+
+  /* Base case -- length 0 or 1 */
+  if (!head || !head->next)
+    return;
+
+
+  /* Split head into 'a' and 'b' sublists */
+  FrontBackSplit(head, &a, &b);
+
+  /* Recursively sort the sublists */
+  MergeSort(&a, cmp);
+  MergeSort(&b, cmp);
+
+
+  /* answer = merge the two sorted lists together */
+  *L = SortedMerge(a, b, cmp);
+}
+
+
+void FrontBackSplit(LLNode* source,
+          LLNode** frontRef, LLNode** backRef) {
+
+  LLNode* fast;
+  LLNode* slow;
+  if (!source || !source->next) {
+    /* length < 2 cases */
+    *frontRef = source;
+    *backRef = NULL;
+  }
+  else {
+    slow = source;
+    fast = source->next;
+
+    /* Advance 'fast' two nodes, and advance 'slow' one node */
+    while (fast) {
+      fast = fast->next;
+      if (fast) {
+        slow = slow->next;
+        fast = fast->next;
+      }
+    }
+
+    /* 'slow' is before the midpoint in the list, so split it in two
+      at that point. */
+    *frontRef = source;
+    *backRef = slow->next;
+    slow->next = NULL;
+  }
+}
+
+LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
+  LLNode* result = NULL;
+
+  /* Base cases */
+  if (!a)
+     return(b);
+  else if (!b)
+     return(a);
+
+  /* Pick either a or b, and recur */
+  if (cmp(a->value, b->value) <= 0) {
+     result = a;
+     result->next = SortedMerge(a->next, b, cmp);
+  }
+  else {
+     result = b;
+     result->next = SortedMerge(a, b->next, cmp);
+  }
+  return(result);
 }

@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:39:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/29 01:02:32 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/13 20:32:54 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 #include "intersect.h"
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 int comparison_fn_t(const void *a, const void *b);
+int cmp_city_t (const void * a, const void * b);
 /* ------------------------------------------------------------------------- *
  * Find all the cities in a box.
  *
@@ -80,7 +82,7 @@ LinkedList* findCities(LinkedList* cities,
 
   filtered_lon = getInRange(bst_lon, &longitudeMin, &longitudeMax);
 
-  res = intersect(filtered_lat, filtered_lon, &comparison_fn_t);
+  res = intersect(filtered_lat, filtered_lon, &cmp_city_t);
 
   freeLinkedList(filtered_lat, false);
   freeLinkedList(filtered_lon, false);
@@ -100,3 +102,10 @@ LinkedList* findCities(LinkedList* cities,
    const double *b_ = b;
    return  (*a_ > *b_) - (*a_ < *b_);
  }
+
+
+int cmp_city_t (const void * a, const void * b) {
+  const City *a_ = (const City *) a;
+  const City *b_ = (const City *) b;
+  return (strcmp(a_->name, b_->name));
+}
