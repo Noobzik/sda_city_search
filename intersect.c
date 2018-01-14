@@ -6,7 +6,7 @@
 /*   By: Dryska <emeric.bayard@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2018/01/13 23:23:57 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/14 08:46:56 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,37 +88,58 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
   return listC;
 }
 
+/**
+ * MergeSort()
+ * Sort a LinkedList by alphabetical up order. Changes only the pointers.
+ * Base case : exit the MergeSort is the lenght is 0 or 1
+ * Split head into two sublist.
+ * Recursively sort the sublist
+ * Merge the two sublist into the source list.
+ *
+ * Estimated overall complexity is around O(n log n)
+ *
+ * @param L      LLNode pointer to first Node list
+ * @param (*cmp) A generic function pointer to a comparison function
+ */
 void MergeSort(LLNode **L, int cmp(const void*, const void*)) {
-
   LLNode* head = *L;
   LLNode* a;
   LLNode* b;
 
-  /* Base case -- length 0 or 1 */
   if (!head || !head->next)
     return;
 
-
-  /* Split head into 'a' and 'b' sublists */
   FrontBackSplit(head, &a, &b);
-
-  /* Recursively sort the sublists */
   MergeSort(&a, cmp);
   MergeSort(&b, cmp);
 
-
-  /* answer = merge the two sorted lists together */
   *L = SortedMerge(a, b, cmp);
 }
 
-
-void FrontBackSplit(LLNode* source,
-          LLNode** frontRef, LLNode** backRef) {
-
+/**
+ * FrontBackSplit()
+ * Split the nodes of the given list (source) into front and bacj halves.
+ * Return the two list using the reference parameters.
+ * If the lenght id odd, node + 1 to the front list.
+ * Fast / slow pointer stategy
+ * Base case : If the lenght of the list is less than 2. the front list will
+ * take the source list and the back list will be null.
+ *
+ * The fast pointer will advance by 2 node for the fast node and advance by 1
+ * the slow pointer.
+ *
+ * The slow pointer is right before the midpoint of the assumed sources list,
+ * so split it in two
+ * at that point.
+ * @param source   (LLNode *) Source list
+ * @param frontRef (LLNode *) A pointer to the front list
+ * @param backRef  (LLNode *) A pointer to the back list
+ */
+void FrontBackSplit(LLNode* source, LLNode** frontRef, LLNode** backRef) {
   LLNode* fast;
   LLNode* slow;
+
   if (!source || !source->next) {
-    /* length < 2 cases */
     *frontRef = source;
     *backRef = NULL;
   }
@@ -126,7 +147,6 @@ void FrontBackSplit(LLNode* source,
     slow = source;
     fast = source->next;
 
-    /* Advance 'fast' two nodes, and advance 'slow' one node */
     while (fast) {
       fast = fast->next;
       if (fast) {
@@ -135,24 +155,31 @@ void FrontBackSplit(LLNode* source,
       }
     }
 
-    /* 'slow' is before the midpoint in the list, so split it in two
-      at that point. */
     *frontRef = source;
     *backRef = slow->next;
     slow->next = NULL;
   }
 }
 
+/**
+ * SortedMerge()
+ * Compare two node and sort accordingly by the given result of the comparison
+ * Base case : a is nulled -> return b (respectively b)
+ * If a is lower than/equals to , b, the result will be a. and Recursively check
+ * the next node of a->next;
+ * Else b will the result and Recursively check the next of b->next
+ * @param a (LLNode *)
+ * @param b (LLNode *)
+ * @return The result node of the comparison.
+ */
 LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
   LLNode* result = NULL;
 
-  /* Base cases */
   if (!a)
      return(b);
   else if (!b)
      return(a);
 
-  /* Pick either a or b, and recur */
   if (cmp(a->value, b->value) <= 0) {
      result = a;
      result->next = SortedMerge(a->next, b, cmp);

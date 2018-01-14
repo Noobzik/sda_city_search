@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:39:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2018/01/13 20:32:54 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/14 08:53:23 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,14 @@ LinkedList* findCities(LinkedList* cities,
    return  (*a_ > *b_) - (*a_ < *b_);
  }
 
-
+/**
+ * cmp_city_t()
+ * Compare two City by it's name.
+ * The result is given after executing strcmp
+ * @param a generic pointer to a;
+ * @param b generic pointer to b;
+ * @return result of strcmp(a_->name, b_->name);
+ */
 int cmp_city_t (const void * a, const void * b) {
   const City *a_ = (const City *) a;
   const City *b_ = (const City *) b;
