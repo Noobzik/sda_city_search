@@ -6,7 +6,7 @@
 /*   By: Dryska <emeric.bayard@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2018/01/14 09:49:39 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/14 11:03:29 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 void    MergeSort     (LLNode **L,           int cmp(const void*, const void*));
 LLNode* SortedMerge   (LLNode* a, LLNode* b, int cmp(const void*, const void*));
 void    FrontBackSplit(LLNode* source, LLNode** frontRef, LLNode** backRef);
+void    MoveNode      (LLNode** destRef, LLNode** sourceRef);
 
 /* ------------------------------------------------------------------------- *
  * Computes the intersection of `listA` and `listB`. Both lists must contain
@@ -63,8 +64,8 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
   LinkedList* listC = newLinkedList();
   int (*cmp) (const void*, const void*) = comparison_fn_t;
 
-  MergeSort(&tmpA, comparison_fn_t);
-  MergeSort(&tmpB, comparison_fn_t);
+  MergeSort(&tmpA, cmp);
+  MergeSort(&tmpB, cmp);
 
   List_A->head = tmpA;
   List_B->head = tmpB;
@@ -173,18 +174,23 @@ void FrontBackSplit(LLNode* source, LLNode** frontRef, LLNode** backRef) {
  * If a is lower than/equals to , b, the result will be a. and Recursively check
  * the next node of a->next;
  * Else b will the result and Recursively check the next of b->next
+ *
+ * PROBLEME DE RECURSION : STACK OVERFLOW : can't grow stack
+ *
  * @param a (LLNode *)
  * @param b (LLNode *)
  * @return The result node of the comparison.
  */
+/*
 LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
   LLNode* result = NULL;
-
-  if (!a)
+  if (!a && !b)
+      puts("assertion failed at line 182, intersect.c");
+  if (a == NULL)
      return(b);
-  else if (!b)
+  else if (b == NULL)
      return(a);
-
+  assert(a && b);
   if (cmp(a->value, b->value) <= 0) {
      result = a;
      result->next = SortedMerge(a->next, b, cmp);
@@ -194,4 +200,55 @@ LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
      result->next = SortedMerge(a, b->next, cmp);
   }
   return(result);
+}*/
+
+
+LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
+  LLNode* result = NULL;
+  LLNode** lastPtrRef = &result;
+
+  while (1) {
+    if (a == NULL) {
+      *lastPtrRef = b;
+       break;
+    }
+    else if (b==NULL) {
+       *lastPtrRef = a;
+       break;
+    }
+    if(cmp(a->value, b->value) <= 0)
+      MoveNode(lastPtrRef, &a);
+    else
+      MoveNode(lastPtrRef, &b);
+
+    /* tricky: advance to point to the next ".next" field */
+    lastPtrRef = &((*lastPtrRef)->next);
+  }
+  return(result);
+}
+
+/* MoveNode() function takes the node from the front of the
+   source, and move it to the front of the dest.
+   It is an error to call this with the source list empty.
+
+   Before calling MoveNode():
+   source == {1, 2, 3}
+   dest == {1, 2, 3}
+
+   Affter calling MoveNode():
+   source == {2, 3}
+   dest == {1, 1, 2, 3} */
+void MoveNode(LLNode** destRef, LLNode** sourceRef) {
+    /* the front source node  */
+    LLNode* newNode = *sourceRef;
+    assert(newNode != NULL);
+
+    /* Advance the source pointer */
+    *sourceRef = newNode->next;
+
+    /* Link the old dest off the new node */
+    newNode->next = *destRef;
+
+    /* Move dest to point to the new node */
+    *destRef = newNode;
 }
