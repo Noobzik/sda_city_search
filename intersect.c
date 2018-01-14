@@ -6,7 +6,7 @@
 /*   By: Dryska <emeric.bayard@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2018/01/14 08:46:56 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/14 09:49:39 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,16 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
 
   LLNode *tmpA = listA->head;
   LLNode *tmpB = listB->head;
+  LinkedList *List_A = (LinkedList *) listA;
+  LinkedList *List_B = (LinkedList *) listB;
   LinkedList* listC = newLinkedList();
   int (*cmp) (const void*, const void*) = comparison_fn_t;
 
   MergeSort(&tmpA, comparison_fn_t);
   MergeSort(&tmpB, comparison_fn_t);
+
+  List_A->head = tmpA;
+  List_B->head = tmpB;
 
   while (tmpA && tmpB) {
     if (cmp(tmpA->value, tmpB->value) < 0)
@@ -72,7 +77,7 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
     else if(cmp(tmpA->value, tmpB->value) == 0){
       if(!insertInLinkedList(listC, tmpA->value)) {
         freeLinkedList(listC, false);
-        printf("Assertion failed line 73, intersection.c.)"
+        printf("Assertion failed line 77, intersection.c.)"
                " insertInLinkedList(listC, tmp->value)\n");
         return NULL;
       }
