@@ -9,6 +9,7 @@
 | Yesli  Rayane   | 11507199        | soso7      |
 | Belmaati Yacine | 11513398        | Laser1W    |
 
+Répertoire git : [Sur ce lien](https://bitbucket.org/asiat/sda_city_search)
 ___
 
 ### Note de warnings rencontré sur les fichiers fournis ###
@@ -40,7 +41,7 @@ Le code général est implémenté avec le principe de la programmation défensi
 
 *   **BinarySearchTree.c**
 
-La manière dont les arbres de binaire de recherche sont écrites dans le fichier Header n'était pas familier avec ce qu'on a vu en cours. C'est-à-dire une structure contenant un pointeur vers la racine et un deuxième définissant les nœuds.
+La manière dont les arbres de binaire de recherche sont écrites dans le fichier Header n'était pas familier avec ce que nous avons vu en cours. C'est-à-dire une structure contenant un pointeur vers la racine et un deuxième définissant les nœuds.
 
 Du coup, l'implémentation certaines fonctions du BST est spécialement basé sur les cours de l'Institut Montefiore rédigé par Pierre Guerts, en complément de nos propres cours.
 
@@ -48,7 +49,7 @@ Le Header nous informe que nous devons utiliser une structure opaque pour les AB
 
 On a eu des problèmes à faire fonctionner insertInBST. On est parti sur la base du TP effectué en cours. Le programme nous disait que le bst était vide. On a remarqué que le bst créée pour l'ajout remplace le bst passé en paramètre. On a dû régler ce problème en ajoutant un pointeur vers le nœud qui le précède et en créant un *tmp* pour gérer l'ajout.
 
-La fonction getInRange était particulière, on a dû le recoder plusieurs fois.
+La fonction getInRange était particulière, nous avons dû le recoder plusieurs fois.
 On est tout d'abord partie sur une récursion. On a remarqué assez rapidement que la fonction prenait seulement une liste chaînée, clé minimal et maximum et pas de bst.
 
 On a pensé à faire une nouvelle fonction récursive sur ce bst pour un parcours latéral. Mais les return posent problèmes.
@@ -63,14 +64,14 @@ const BinarySearchTree *inorderBST(BinarySearchTree *bst) {
 ```
 Chose qui est impossible.
 
-Du coup, on est parti sur une version itérative avec un parcours latérale. On pense que c'était la seule solution disponible. On a dû rajouter une fonction supplémentaire pour gérer les extractions d'une liste sous forme de file temporairement.
+Du coup, nous sommes partis sur une version itérative avec un parcours latérale. On pense que c'était la seule solution disponible. On a dû rajouter une fonction supplémentaire pour gérer les extractions d'une liste sous forme de file temporairement.
 
 *   **intersect.c**
 
 On s'est entièrement basé sur les paramètres du prototype donnée en fichier d'entête pour rédiger cette fonction.
-La première approche est totalement naïve. On prend 1 élément de la liste A et on regarde s'il est dans la liste B. On admet alors que la complexité de cet algorithme est très médiocre. θ(4\*N) + θ(P\*Q)
+La première approche est totalement naïve. On prend 1 élément de la liste A et nous regardons s'il est dans la liste B. On admet alors que la complexité de cet algorithme est très médiocre. θ(4\*N) + θ(P\*Q)
 
-Après avoir testé sur des bases de données plus grandes, on a très vite remarqué que cette première approche était très lente.
+Après avoir testé sur des bases de données plus grandes, nous avons très vite remarqué que cette première approche était très lente.
 
 On a alors réfléchi sur une deuxième approche qui est de faire un Tri-fusion de la liste A et B (qui ne coûte que θ(n*log(n)) pour ensuite faire son intersection.
 
@@ -86,7 +87,7 @@ La complexité estimée sera alors de θ(2(p+q) + θ((p\*log(p) + q\*log(q)) + �
 On avait eu des problèmes de Stack Overflow sur la récursion du SortedMerge.
 [Il est sous investigation sur ce lien (StackOverflow)](https://stackoverflow.com/questions/48248237/stack-overflow-in-with-larger-database-in-a-recursive-function).
 
-Du coup, on est passé en version itérative (qui n'a pas de pertes sur la complexité générale) le temps qu'on comprend comment c'est possible. Le code de la récursion est laissé en commentaire.
+Du coup, nous sommes passé en version itérative (qui n'a pas de pertes sur la complexité générale) le temps que nous comprenons comment c'est possible. Le code de la récursion est laissé en commentaire.
 
 *   **findCities (1 / 2 / Z) BST.c**
 
@@ -117,11 +118,11 @@ freeLinkedList (File);
 ```
 ##### 3)    Analyse de complexité #####
 
-*   insertInLinkedList à une complexité de *θ(1)*, on l'ajoute directement à la fin de la liste
+*   insertInLinkedList à une complexité de *θ(1)*, nous l'ajoutons directement à la fin de la liste
 *   extractFile à une complexité de *θ(1)* aussi, elle retire le premier élément de la liste.
 *   Les instructions if sont de complexité *θ(1)*.
 
-*   **En répétant N fois cette boucle, on a donc une complexité de** ***θ(n)***.
+*   **En répétant N fois cette boucle, nous avons donc une complexité de** ***θ(n)***.
 *   Dans le meilleur cas : *θ(1)*.
 *   Dans le pire cas : *θ(n)*
 
@@ -160,10 +161,10 @@ LinkedList *intersect (LinkedList *listA,
 
 *   **Pour la première approche**
 
-Dans le pire cas, soit M = N, on aura une complexité de θ(N²)
+Dans le pire cas, soit M = N, nous aurons une complexité de θ(N²)
 On peut dire que la manière dont l'algorithme est écrit est très lente.
 
-Dans le meilleur cas, on aura θ(1).
+Dans le meilleur cas, nous aurons θ(1).
 
 *   **Pour la deuxième approche**
 
@@ -185,9 +186,9 @@ Après avoir testé cette implémentation, la récursion sur une base de 1 000 0
 
 L'approche partiellement récursive est de créer un pointeur temporaire qui va permettre de déplacer des nœuds  d'une liste à l'autre le tout de manière itératif par boucle while.
 La division de la liste reste quant à elle récursif. On garde un pointeur vers le dernier nœud  de la liste trié. C'est au moment de la comparaison que la fonction fusion décide de changer l'emplacement du nœud  a ou le nœud  b.
-L'avantage de cette approche est qu'on économise de l'espace occupé de la mémoire du stack.
+L'avantage de cette approche est que nous économisons de l'espace occupé de la mémoire du stack.
 
-Dans ces deux sous cas, on devrait garder une complexité égale, donc le choix de l'implémentation ne sera pas un facteur majeur affectant le temps.
+Dans ces deux sous cas, nous devons garder une complexité égale, donc le choix de l'implémentation ne sera pas un facteur majeur affectant le temps.
 
 Filtrer une liste chaînée par l'algorithme de tri fusion devrait prendre θ(n log(n)). Etant donné que les deux listes chaînées seront linéaires. On fait une comparaison linéaire de ces deux listes. Ce qui nous donne une complexité de θ(n+m) pour cette comparaison linéaire.
 
@@ -197,7 +198,7 @@ Le meilleur cas devrait être θ(nlog(n)).
 
 ##### 6)    Comparaison des 3 approches #####
 
-Pour calculer le temps on décide de le faire sur 1 000 villes et 1 000 000 villes avec les commandes suivantes :
+Pour calculer le temps nous décidons de le faire sur 1 000 villes et 1 000 000 villes avec les commandes suivantes :
 
 Testé sur un i5 4200H Dual Core 2.8 GHz / 3.4 GHz Turbo.
 
@@ -224,9 +225,9 @@ $ time ./boxsearch cities_1000000.csv -1 -1 1 1
 
 > *La recherche a été abandonnée par* <kbd>CTRL</kbd>+<kbd>C</kbd> *suite à la lenteur de l'algorithme.*
 
-A partir de ce tableau comparatif entre ces trois algorithmes, il est évident que le deuxième algorithme prend le plus de temps à faire la recherche des villes. Ceci est clairement dû à l'implémentation médiocre au terme de complexité de la fonction intersection. On rappelle qu'il y a deux boucles whiles. On prend un élément et on parcourt toute la liste si elle y est. Sinon on passe au suivant. La complexité est alors de θ(4xg) + θ(N*M) ce qui est très lent.
+A partir de ce tableau comparatif entre ces trois algorithmes, il est évident que le deuxième algorithme prend le plus de temps à faire la recherche des villes. Ceci est clairement dû à l'implémentation médiocre au terme de complexité de la fonction intersection. On rappelle qu'il y a deux boucles whiles. On prend un élément et nous parcourt toute la liste si elle y est. Sinon nous passons au suivant. La céomplexité est alors de θ(4xg) + θ(N*M) ce qui est très lent.
 
-En ce qui concerne l'algorithme 1 et 3, on peut affirmer que l'algorithme 3 est environ 2x plus rapide que le premier algorithme, bien qu'on ait une complexité supplémentaire de θ(N) pour refiltrer les villes qui ont échappé au filtre.
+En ce qui concerne l'algorithme 1 et 3, nous pouvons affirmer que l'algorithme 3 est environ 2x plus rapide que le premier algorithme, bien que nous ayons une complexité supplémentaire de θ(N) pour refiltrer les villes qui ont échappé au filtre.
 
 ###### Nouveau tableau comparatif avec tri-fusion ######
 
@@ -245,7 +246,7 @@ Pour l'algorithme 3, une optimisation de l'espace a été effectuée, les résul
 | **Algorithme 2**   | 0.002s | 0.028s  | 0,412s   | 8,48s     |
 | **Algorithme 3**   | 0.002s | 0.016s  | 0.152s   | 2,238s    |
 
-Avec la recherche en tri-fusion, on a largement diminué la complexité en temps dans le pire cas. Mais on remarque aussi que le temps passé est équivalent à la première approche. On pourrait penser que le fait d'utiliser deux arbres binaires nuit de manière significatif la complexité en temps mais aussi en espace (ou bien que ce soit une mauvaise implémentation, ça reste à voir).
+Avec la recherche en tri-fusion, nous avons largement diminué la complexité en temps dans le pire cas. Mais nous remarquont aussi que le temps passé est équivalent à la première approche. On pourrait penser que le fait d'utiliser deux arbres binaires nuit de manière significatif la complexité en temps mais aussi en espace (ou bien que ce soit une mauvaise implémentation, ça reste à voir).
 
 Mais la durée de l'exécution est toujours trois à quatre fois supérieures par rapport à une liste chaînée, 1 bst et du code Morton.
 
