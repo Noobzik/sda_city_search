@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:39:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2018/01/14 08:53:23 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/20 09:04:04 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ LinkedList* findCities(LinkedList* cities,
   LinkedList       *filtered_lat;
   LinkedList       *filtered_lon;
   const City       *city;
+
+  assert(-90 <= latitudeMin && latitudeMax <= 90);
+  assert(-180 <= longitudeMin && longitudeMax <= 180);
 
   /** Latitude **/
 
@@ -98,8 +101,8 @@ LinkedList* findCities(LinkedList* cities,
  * comparison_fn_t(a, b) > 0    <=> a > b
  */
  int comparison_fn_t(const void* a, const void* b) {
-   const double *a_ = a;
-   const double *b_ = b;
+   const double *a_ = (const double *) a;
+   const double *b_ = (const double *) b;
    return  (*a_ > *b_) - (*a_ < *b_);
  }
 

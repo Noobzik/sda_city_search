@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2018/01/14 08:58:55 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/20 09:06:27 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ LinkedList* findCities(LinkedList* cities,
   uint64_t            *codedMorton;
   int                 i        = 0;
 
-  codedMorton = malloc(sizeof(uint64_t)* cities->size);
-  city = (const City*)curr->value;
-
   assert(-90 <= latitudeMin && latitudeMax <= 90);
   assert(-180 <= longitudeMin && longitudeMax <= 180);
+  
+  codedMorton = (uint64_t *) malloc(sizeof(uint64_t) * cities->size);
+  city = (const City*)curr->value;
 
   while (!error && curr != NULL) {
     assert(i < (int) cities->size);
@@ -124,8 +124,8 @@ LinkedList* findCities(LinkedList* cities,
  * @return Boolean calculus.
  */
 int comparison_fn_t(const void* a, const void* b) {
-  const uint64_t *a_ = a;
-  const uint64_t *b_ = b;
+  const uint64_t *a_ = (const uint64_t *) a;
+  const uint64_t *b_ = (const uint64_t *) b;
   return  (*a_ > *b_) - (*a_ < *b_);
 }
 

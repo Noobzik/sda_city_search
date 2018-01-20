@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/29 01:01:37 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/20 09:04:35 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ LinkedList* findCities(LinkedList* cities,
 }
 
 int comparison_fn_t(const void* a, const void* b) {
-  const double *a_ = a;
-  const double *b_ = b;
+  const double *a_ = (const double *) a;
+  const double *b_ = (const double *) b;
   return  (*a_ > *b_) - (*a_ < *b_);
 }
