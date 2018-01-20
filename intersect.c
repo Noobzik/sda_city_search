@@ -6,11 +6,11 @@
 /*   By: Dryska <emeric.bayard@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:07:10 by Dryska            #+#    #+#             */
-/*   Updated: 2018/01/14 11:03:29 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/20 09:23:13 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/** Previous algorithm wriiten by Dryska
+/** Previous algorithm written by Dryska
   * Major speed optimisation by NoobZik
   */
 
@@ -54,7 +54,7 @@ void    MoveNode      (LLNode** destRef, LLNode** sourceRef);
  * but still represent the same city.
  * ------------------------------------------------------------------------- */
 
-LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
+LinkedList*  intersect(const LinkedList* listA, const LinkedList* listB,
                       int comparison_fn_t(const void *, const void *)) {
 
   LLNode *tmpA = listA->head;
@@ -107,7 +107,7 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
  * @param L      LLNode pointer to first Node list
  * @param (*cmp) A generic function pointer to a comparison function
  */
-void MergeSort(LLNode **L, int cmp(const void*, const void*)) {
+void    MergeSort     (LLNode **L, int cmp(const void*, const void*)) {
   LLNode* head = *L;
   LLNode* a;
   LLNode* b;
@@ -141,7 +141,7 @@ void MergeSort(LLNode **L, int cmp(const void*, const void*)) {
  * @param frontRef (LLNode *) A pointer to the front list
  * @param backRef  (LLNode *) A pointer to the back list
  */
-void FrontBackSplit(LLNode* source, LLNode** frontRef, LLNode** backRef) {
+void    FrontBackSplit(LLNode* source, LLNode** frontRef, LLNode** backRef) {
   LLNode* fast;
   LLNode* slow;
 
@@ -202,8 +202,8 @@ LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
   return(result);
 }*/
 
-
-LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
+LLNode* SortedMerge      (LLNode* a, LLNode* b,
+                          int cmp(const void*, const void*)) {
   LLNode* result = NULL;
   LLNode** lastPtrRef = &result;
 
@@ -227,28 +227,23 @@ LLNode* SortedMerge(LLNode* a, LLNode* b, int cmp(const void*, const void*)) {
   return(result);
 }
 
-/* MoveNode() function takes the node from the front of the
-   source, and move it to the front of the dest.
-   It is an error to call this with the source list empty.
-
-   Before calling MoveNode():
-   source == {1, 2, 3}
-   dest == {1, 2, 3}
-
-   Affter calling MoveNode():
-   source == {2, 3}
-   dest == {1, 1, 2, 3} */
-void MoveNode(LLNode** destRef, LLNode** sourceRef) {
-    /* the front source node  */
+/**
+ * MoveNode() function takes the node from the front of the
+ * source, and move it to the front of the dest.
+ * It is an error to call this with the source list empty.
+ *
+ * The new Node will take the sourceRef (The front source node)
+ * Then, advance the source pointer
+ * Link the old dest off the new node
+ * Move dest point to the new node.
+ *
+ * @param  destRef   Pointer to the destination node
+ * @param  sourceRef Pointer to the source node
+ */
+void    MoveNode      (LLNode** destRef, LLNode** sourceRef) {
     LLNode* newNode = *sourceRef;
     assert(newNode != NULL);
-
-    /* Advance the source pointer */
-    *sourceRef = newNode->next;
-
-    /* Link the old dest off the new node */
-    newNode->next = *destRef;
-
-    /* Move dest to point to the new node */
-    *destRef = newNode;
+    *sourceRef      = newNode->next;
+    newNode->next   = *destRef;
+    *destRef        = newNode;
 }
