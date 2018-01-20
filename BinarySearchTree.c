@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2017/12/27 23:07:51 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/20 09:30:06 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void *extractFile(LinkedList *file);
  */
 BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
   BinarySearchTree *res = NULL;
-  res = malloc(sizeof(BinarySearchTree));
+  res = (BinarySearchTree *) malloc(sizeof(BinarySearchTree));
   assert(res != NULL);
   res->value = NULL;
   res->key = NULL;
@@ -83,25 +83,12 @@ BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
  */
 
 void freeBST (BinarySearchTree* bst, bool freeContent){
-
-  if (!bst) return;
-
-   if (freeContent == false) {
-     if (bst) {
-      freeBST(bst->left, false);
-      freeBST(bst->right, false);
-      free(bst);
-     }
-  }
-
-  else {
-    if (bst) {
-      freeBST(bst->left, true);
-      free((void *)bst->value);
-      freeBST(bst->right, true);
-      free(bst);
-    }
-  }
+  if (!bst)
+    return;
+  if (freeContent)
+    free((void *)bst->value);
+  freeBST(bst->left, freeContent);
+  freeBST(bst->right, freeContent);
 }
 
 
@@ -116,7 +103,7 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
  * PURE
  */
 size_t sizeOfBST (const BinarySearchTree* bst) {
-  return (!bst) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
+  return (!bst || !bst->key) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
 
@@ -190,9 +177,9 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
 const void* searchBST (BinarySearchTree* bst, const void* key) {
   if (sizeOfBST(bst) == 0)
     return NULL;
-  if (key == bst->key) return bst->value;
-  return (key < bst->key) ? searchBST(bst->left, key) :
-                            searchBST(bst->right, key);
+  if (bst->compare(key, bst->key) == 0) return bst->value;
+  return (bst->compare(key,bst->key) < 0) ? searchBST(bst->left, key) :
+                                            searchBST(bst->right, key);
 }
 
 
@@ -220,7 +207,7 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
   LinkedList* res = newLinkedList();
   BinarySearchTree *temp = (BinarySearchTree *) bst;
 
-  if (sizeOfBST(bst) == 0 || sizeOfBST(bst) == 1)
+  if (sizeOfBST(bst) == 0 || (sizeOfBST(bst) == 1 && !bst->key))
     return res;
 
   assert(temp);
@@ -229,12 +216,11 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
     if (temp->compare(keyMin, temp->key) <= 0
         && temp->compare(temp->key, keyMax) <= 0)
       if (!insertInLinkedList(res, temp->value)) return NULL;
-
     if (temp->left)
       if (!insertInLinkedList(file, temp->left)) return NULL;
     if (temp->right)
       if (!insertInLinkedList(file, temp->right)) return NULL;
-    temp = extractFile(file);
+    temp = (BinarySearchTree *) extractFile(file);
   }
   freeLinkedList(file,false);
   return res;
@@ -262,7 +248,8 @@ void *extractFile(LinkedList *file) {
     }
   }
 
-  if (node) res = (void *) node->value;
+  if (node)
+    res = (void *) node->value;
 
   free(node);
   return res;
