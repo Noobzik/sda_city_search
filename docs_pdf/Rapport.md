@@ -9,6 +9,28 @@
 | Yesli  Rayane   | 11507199        | soso7      |
 | Belmaati Yacine | 11513398        | Laser1W    |
 
+___
+
+### Note de warnings rencontré sur les fichiers fournis ###
+
+Le projet se compile avec tous les warnings activés en plus de celle demandé.
+
+Les warnings listés dans cette section ne seront pas réglés puisque les fichiers concernant ne sont pas demandé à la remise.
+
+1 Seule warning devrait s'afficher :
+```
+main.c: In function 'parseCsv':
+main.c:66:24: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+     while (fgets(line, sizeof(line), fileObj) != NULL)
+                        ^
+```
+
+Il suffit de forcer le cast en int pour l'effacer :
+```c
+while (fgets(line, (int) sizeof(line), fileObj != NULL))
+                    ^
+```
+___
 
 ### Analyse théorique et empirique ###
 
@@ -52,7 +74,7 @@ Après avoir testé sur des bases de données plus grandes, on a très vite rema
 
 On a alors réfléchi sur une deuxième approche qui est de faire un Tri-fusion de la liste A et B (qui ne coûte que θ(n*log(n)) pour ensuite faire son intersection.
 
-Ce qui ramène a faire :
+Ce qui ramène à faire :
 
 *   getInRange de Liste A
 *   getInRange de Liste B
@@ -171,7 +193,7 @@ Filtrer une liste chaînée par l'algorithme de tri fusion devrait prendre θ(n 
 
 La complexité finale sera alors estimée à θ(nlog(n) + mlog(m)). Ce qui devrait être largement plus rapide que la première approche.
 
-Le meilleur cas devrait être θ(1).
+Le meilleur cas devrait être θ(nlog(n)).
 
 ##### 6)    Comparaison des 3 approches #####
 
