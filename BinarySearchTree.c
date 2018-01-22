@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:28:18 by NoobZik           #+#    #+#             */
-/*   Updated: 2018/01/20 09:30:06 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/22 17:42:13 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void *extractFile(LinkedList *file);
  */
 BinarySearchTree* newBST (int comparison_fn_t(const void*, const void*)) {
   BinarySearchTree *res = NULL;
-  res = (BinarySearchTree *) malloc(sizeof(BinarySearchTree));
+  res                   = (BinarySearchTree *) malloc(sizeof(BinarySearchTree));
   assert(res != NULL);
-  res->value = NULL;
-  res->key = NULL;
-  res->right  = 0;
-  res->left   = 0;
-  res->root   = 0;
-  res->compare = comparison_fn_t;
+  res->value            = NULL;
+  res->key              = NULL;
+  res->right            = 0;
+  res->left             = 0;
+  res->root             = 0;
+  res->compare          = comparison_fn_t;
   return res;
 }
 
@@ -89,6 +89,7 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
     free((void *)bst->value);
   freeBST(bst->left, freeContent);
   freeBST(bst->right, freeContent);
+  free(bst);
 }
 
 
@@ -103,7 +104,8 @@ void freeBST (BinarySearchTree* bst, bool freeContent){
  * PURE
  */
 size_t sizeOfBST (const BinarySearchTree* bst) {
-  return (!bst || !bst->key) ? 0 : 1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
+  return (!bst || !bst->key) ? 0 :
+                               1 + sizeOfBST(bst->left) + sizeOfBST(bst->right);
 }
 
 
@@ -126,7 +128,7 @@ size_t sizeOfBST (const BinarySearchTree* bst) {
 bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
 
   if (!bst->key) {
-    bst->key = key;
+    bst->key   = key;
     bst->value = value;
     return true;
   }
@@ -151,10 +153,10 @@ bool insertInBST (BinarySearchTree* bst, const void* key, const void* value) {
     }
     else {
       BinarySearchTree *tmp = newBST(bst->compare);
-      tmp->key = key;
+      tmp->key   = key;
       tmp->value = value;
       tmp->root  = bst;
-      bst->left = tmp;
+      bst->left  = tmp;
       return true;
     }
   }
@@ -203,8 +205,8 @@ const void* searchBST (BinarySearchTree* bst, const void* key) {
  * ------------------------------------------------------------------------- */
 
 LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
-  LinkedList* file = newLinkedList();
-  LinkedList* res = newLinkedList();
+  LinkedList       *file = newLinkedList();
+  LinkedList       *res  = newLinkedList();
   BinarySearchTree *temp = (BinarySearchTree *) bst;
 
   if (sizeOfBST(bst) == 0 || (sizeOfBST(bst) == 1 && !bst->key))
@@ -215,11 +217,14 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
     assert(temp->key);
     if (temp->compare(keyMin, temp->key) <= 0
         && temp->compare(temp->key, keyMax) <= 0)
-      if (!insertInLinkedList(res, temp->value)) return NULL;
+      if (!insertInLinkedList(res, temp->value))
+        return NULL;
     if (temp->left)
-      if (!insertInLinkedList(file, temp->left)) return NULL;
+      if (!insertInLinkedList(file, temp->left))
+        return NULL;
     if (temp->right)
-      if (!insertInLinkedList(file, temp->right)) return NULL;
+      if (!insertInLinkedList(file, temp->right))
+        return NULL;
     temp = (BinarySearchTree *) extractFile(file);
   }
   freeLinkedList(file,false);
@@ -232,8 +237,8 @@ LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax){
  * @return A generic pointer to the data.
  */
 void *extractFile(LinkedList *file) {
-  void *res = 0;
-  LLNode* node = 0;
+  void   *res = 0;
+  LLNode *node = 0;
 
   if (!(file->size == 0)) {
     node = file->head;
@@ -248,9 +253,10 @@ void *extractFile(LinkedList *file) {
     }
   }
 
-  if (node)
+  if (node) {
     res = (void *) node->value;
+    free(node);
+  }
 
-  free(node);
   return res;
 }

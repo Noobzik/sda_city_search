@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 19:46:00 by NoobZik           #+#    #+#             */
-/*   Updated: 2018/01/20 09:06:27 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/22 17:45:46 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ LinkedList* findCities(LinkedList* cities,
 
   assert(-90 <= latitudeMin && latitudeMax <= 90);
   assert(-180 <= longitudeMin && longitudeMax <= 180);
-  
+
   codedMorton = (uint64_t *) malloc(sizeof(uint64_t) * cities->size);
   city = (const City*)curr->value;
 
@@ -83,7 +83,7 @@ LinkedList* findCities(LinkedList* cities,
 
   curr = filtered->head;
 
-  while (curr) {
+  while (curr && !error) {
     city = (const City *) curr->value;
     if (city == NULL) {
       curr = curr->next;
@@ -103,6 +103,7 @@ LinkedList* findCities(LinkedList* cities,
     freeLinkedList(filtered, false);
     freeLinkedList(res, false);
     freeBST(bst, false);
+    free(codedMorton);
     return NULL;
   }
 

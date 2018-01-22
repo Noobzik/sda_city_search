@@ -6,7 +6,7 @@
 /*   By: NoobZik <rakib.hernandez@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 09:26:53 by NoobZik           #+#    #+#             */
-/*   Updated: 2018/01/20 09:04:35 by NoobZik          ###   ########.fr       */
+/*   Updated: 2018/01/22 17:35:06 by NoobZik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ LinkedList* findCities(LinkedList* cities,
         && comparison_fn_t(&city->longitude, &longitudeMax) <= 0)
          error = error || !insertInLinkedList(res, city);
     curr = curr->next;
+  }
+
+  if (error) {
+    puts("Error while inserting");
+    freeLinkedList(res, true);
+    return NULL;
   }
 
   freeBST(bst, false);
