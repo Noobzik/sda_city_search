@@ -6,7 +6,7 @@
 | :-------------  | :-------------- | :--------- |
 | Bayard Emeric   | 11606611        | Dryska     |
 | Sheikh Rakib    | 11502605        | NoobZik    |
-| Yesli  Rayane   | 11507199        | soso7      |
+| Yesli  Sofiane  | 11507199        | soso7      |
 | Belmaati Yacine | 11513398        | Laser1W    |
 
 Répertoire git : [Sur ce lien](https://bitbucket.org/asiat/sda_city_search)
